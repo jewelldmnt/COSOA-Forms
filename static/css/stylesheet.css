@@ -582,6 +582,47 @@ header {
   text-decoration: underline;
 }
 
+/*=============== About Page ===============*/
+.about{
+  height: 100vh;
+}
+#about--container {
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 2rem;
+  margin-right: 0;
+  height: 100%;
+
+}
+
+#about--bg{
+  position:relative;
+}
+
+#about--bg::before{
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color:hsla(312, 100%, 80%, .95);
+  inset: 0;
+  mix-blend-mode: multiply;
+}
+
+#about--bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about__content{
+  padding-top: 10rem;
+  padding-right: 5rem;
+  text-align: justify;
+}
+
 /*=============== RESPONSIVENESS ===============*/
 @media (max-width: 1080px) {
   .container {
