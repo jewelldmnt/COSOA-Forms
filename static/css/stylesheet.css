@@ -210,6 +210,10 @@ header {
   transition: all 0.5s ease;
 }
 
+#sign__up{
+  color: var(--white);
+}
+
 .nav__list a:hover {
   color: var(--red);
 }
@@ -232,12 +236,13 @@ header {
   tansition: all 0.5s ease;
 }
 
-.sign__in {
+
+#sign__in {
   display: flex;
   align-items: center;
 }
 
-.sign__in i {
+#sign__in i {
   color: var(--red);
   font-size: 28px;
   margin-right: 7px;
