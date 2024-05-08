@@ -3,7 +3,7 @@
 
 /*=============== VARIABLES CSS ===============*/
 :root {
-  --header-height: 3.5rem;
+  --header-height: 5.5rem;
 
   /*========== Colors ==========*/
   /*Color mode HSL(hue, saturation, lightness)*/
@@ -163,6 +163,7 @@ svg {
 
 /*=============== Header and Nav ===============*/
 header {
+  height: var(--header-height);
   position: fixed;
   width: 100%;
   background-color: var(--white);
@@ -302,7 +303,7 @@ header {
 .home__container {
   position: absolute;
   height: 21.313rem;
-  width: 47.688rem;
+  width: 45%;
   margin-left: 12%;
   top: 50%;
   transform: translateY(-50%); 
@@ -317,6 +318,7 @@ header {
 }
 
 .home__title span {
+  width: 30%;
   color: var(--red);
 }
 
