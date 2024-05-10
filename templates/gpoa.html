@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <!--==================== GPOA ====================-->
+    <main class="main">
+        <section class="home section">
+            <div class="background">
+                <div class="wrapper-gpoa">
+                    <table class="table-gpoa">
+                        <tr class="table-header-gpoa">
+                            <td>
+                                MONTH
+                            </td>
+                            <td>
+                                ACTIVITY
+                            </td>
+                            <td>
+                                OBJECTIVES
+                            </td>
+                            <td>
+                                ORGANIZER
+                            </td>
+                            <td>
+                                PROPOSED BUDGET
+                            </td>
+                            <td>
+                                SOURCE OF FUNDS
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <form action="/sign" method="get">
+                                    <input type="text" name="email" placeholder="mamamo">
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="gpoa-buttons">
+                        <form action="/sign" method="get"></form>
+                            <button type="submit" class="add-1">+</button>
+                            <button type="submit" class="add-csv">Add CSV</button>
+                            <button type="submit" class="submit-gpoa">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}
