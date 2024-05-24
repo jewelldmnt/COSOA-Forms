@@ -1,50 +1,38 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <!--==================== GPOA ====================-->
-    <main class="main">
-        <section class="home section">
-            <div class="background">
-                <div class="wrapper-gpoa">
-                    <table class="table-gpoa">
-                        <tr class="table-header-gpoa">
-                            <td>
-                                MONTH
-                            </td>
-                            <td>
-                                ACTIVITY
-                            </td>
-                            <td>
-                                OBJECTIVES
-                            </td>
-                            <td>
-                                ORGANIZER
-                            </td>
-                            <td>
-                                PROPOSED BUDGET
-                            </td>
-                            <td>
-                                SOURCE OF FUNDS
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <form action="/sign" method="get">
-                                    <input type="text" name="email" placeholder="mamamo">
-                                </form>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="gpoa-buttons">
-                        <form action="/sign" method="get"></form>
-                            <button type="submit" class="add-1">+</button>
-                            <button type="submit" class="add-csv">Add CSV</button>
-                            <button type="submit" class="submit-gpoa">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
+<!--==================== GPOA ====================-->
+<script src="../static/js/gpoa.js"></script>
+<div class="background-mg">
+    <div class="wrapper-gpoa">
+        <table class="table-gpoa" id="gpoa-table">
+            <tr class="table-header-gpoa">
+                <td>MONTH</td>
+                <td>ACTIVITY</td>
+                <td>OBJECTIVES</td>
+                <td>ORGANIZER</td>
+                <td>PROPOSED BUDGET</td>
+                <td>SOURCE OF FUNDS</td>
+            </tr>
+            <tr class="table-inputs">
+                <td><input class="gpoa-inputs" maxlength="16" required></td>
+                <td><textarea class="gpoa-inputs-objectives" rows="1" required></textarea></td>
+                <td><textarea class="gpoa-inputs-objectives" rows="1" required></textarea></td>
+                <td><textarea class="gpoa-inputs-objectives" rows="1" required></textarea></td>
+                <td><input class="gpoa-inputs" maxlength="16" required></td>
+                <td><input class="gpoa-inputs" maxlength="25" required></td>
+            </tr>
+        </table>
+        <div class="gpoa-buttons">
+            <button class="add-1" onclick="add_row()">+</button>
+            <form action="/validate_csv" method="post">
+                <input type="file" accept="csv" name="csv-file" class="input-none-csv">
+                <button class="add-csv">Add CSV</button>
+            </form>
+            <form id="gpoa-form" action="/submit" method="post" onsubmit="return check_all()">
+                <button type="submit" class="submit-gpoa">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

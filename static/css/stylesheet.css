@@ -236,7 +236,7 @@ header {
   color: var(--text-color-nb);
   font-size: var(--p2-font-size);
   font-weight: var(--font-medium);
-  tansition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 
@@ -394,36 +394,100 @@ header {
 }
 
 /*=============== GPOA ===============*/
+.background-mg {
+  height: calc(100vh - 88px);
+  position: relative;
+}
 .wrapper-gpoa{
-
+  /*content setting*/
+  padding-top: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  min-height: 30%;
 }
 
 .table-gpoa {
-
+  border-collapse: collapse;
+  width: 73%;
+  text-align: center;
 }
 
-.table-header-gpoa{
-
-}
+.table-gpoa td{
+  border: 1px solid var(--text-color-nb);
+}   
 
 .table-header-gpoa td {
-
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: var(--maroon);
+  color: var(--white);
+  font-size: var(--p1-font-size);
 }
+
+.table-inputs td input{
+  font-size: var(--p2-font-size);
+}
+
+.gpoa-inputs{
+  padding-top: 48px;
+  padding-bottom: 48px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.gpoa-inputs-objectives{
+  text-align: center; 
+  color: var(--maroon);
+  resize: none;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.gpoa-inputs-objectives::-webkit-scrollbar{
+  width: 0px;
+}
+
+.input-none-csv {
+  display: none;
+}
+
 
 .gpoa-buttons {
-
+  display: flex;
+  position: relative;
+  left: 30%;
+  padding: 1%;
+  gap: 20px;
 }
 
-.add-1 {
+.csvfile {
+  width: 100px;
+}
 
+
+.add-1 {
+  background-color: var(--red);
 }
 
 .add-csv {
-
+  background-color: var(--red);
+  border-radius: 5%;
 }
 
 .submit-gpoa {
-
+  background-color: var(--yellow);
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 5%;
+  padding-top: 5%;
+  border-radius: 5%;
 }
 
 /*=============== Sign In Sign Up ===============*/
@@ -562,7 +626,7 @@ header {
 }
 
 .input input {
-  /*settings of the input text an d shape*/
+  /*settings of the input text and shape*/
   width: 100%;
   height: 50px;
   font-size: var(--p2-font-size);
