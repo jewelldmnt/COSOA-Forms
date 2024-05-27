@@ -1,18 +1,63 @@
-document.addEventListener("DOMContentLoaded", adjustTextareaHeights);
+document.addEventListener("DOMContentLoaded", function() {
 
-function adjustTextareaHeights() {
+    const default_height = document.getElementsByClassName('background-mg')[0].offsetHeight;
+    adjustTextareaHeights(default_height);
+
+    // Event listener for CSV upload button
+    document.getElementById('upload-button').addEventListener('click', function() {
+        document.getElementById('csv-file').click();
+    });
+
+    // Event listener to submit the form when a file is selected
+    document.getElementById('csv-file').addEventListener('change', function() {
+        document.forms[0].submit();
+    });
+});
+
+function adjustTextareaHeights(default_height) {
     // Get all isntances of 'textarea' tag
     const textareas = document.querySelectorAll(".gpoa-inputs-objectives");
+    const maxIncreases = 3;
+    let increaseCount = 0;
+
 
     // For each textarea add an eventlistener that adds height
     textareas.forEach(textarea => {
         textarea.addEventListener("input", () => {
+            const bg = document.getElementsByClassName('background-mg')[0];
+            const tb = document.getElementsByClassName('table-gpoa')[0];
+            // Adjust the input height
             textarea.style.height = "auto";
             let input_height = textarea.scrollHeight;
             textarea.style.height = `${input_height}px`;
+
+            // Adjust the Padding
+
+            // If height of table is greater than background height, adjust
+            let tb_height = tb.offsetHeight;
+            let bg_height = bg.offsetHeight;
+            let gap = bg_height - tb_height;
+
+            // Revert to default if bg height is smaller
+            if ((tb_height/bg_height) < .2066){
+                bg.style.height = `${default_height}px`;
+            }
+            if (gap <= 150){
+                bg.style.height = `${tb_height + 150}px`;
+            } else if ((tb_height / bg_height) > .21){
+                bg.style.height = `${default_height}px`
+            }
         });
     });
 }
+
+document.getElementById('upload-button').addEventListener('click', function() {
+    document.getElementById('csv-file').click();
+});
+
+document.getElementById('csv-file').addEventListener('change', function() {
+    document.forms[0].submit();
+});
 
 function check_all() {
     let table = document.getElementById("gpoa-table");
@@ -32,7 +77,7 @@ function check_all() {
     return true;
 }
 
-function add_row() {
+function add_row(default_height) {
     // Get the table
     let table = document.getElementById("gpoa-table");
     let lastRowIndex = table.rows.length - 1;
@@ -40,6 +85,7 @@ function add_row() {
 
     // Loop through each column index
     if (validate_row(lastRow.cells)) {
+
         // If content found in all column proceed to add row else warn
         let row = table.insertRow(-1);
 
@@ -61,11 +107,37 @@ function add_row() {
             }
         }
         // Call function that makes the 'textarea' tag dynamic
-        adjustTextareaHeights();
+        adjustTextareaHeights(default_height);
+
+        // Get elements needed for adjusting the bg
+        const ft = document.getElementsByClassName('footer')[0];
+        const tb = document.getElementsByClassName('table-gpoa')[0];
+        const bt = document.getElementsByClassName('add-1')[0];
+        const bg = document.getElementsByClassName('background-mg')[0];
+        const gap = getVerticalGap(bt, ft)
+
+        let tb_height = tb.offsetHeight;
+        console.log(gap);
+
+        // Adjust bg
+        if (gap < 0) {
+            console.log("tae");
+            bg.style.height = `${tb_height + 150}px`;
+        }
     }
     else {
         alert("Fill up all fields.");
     }
+}
+
+function getVerticalGap(element1, element2) {
+    const rect1 = element1.getBoundingClientRect();
+    const rect2 = element2.getBoundingClientRect();
+    
+    // Calculate the gap between the bottom of the first element and the top of the second element
+    const gap = rect2.top - rect1.bottom;
+
+    return gap;
 }
 
 function validate_row(columns) {

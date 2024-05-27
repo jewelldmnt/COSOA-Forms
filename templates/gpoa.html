@@ -14,20 +14,22 @@
                 <td>PROPOSED BUDGET</td>
                 <td>SOURCE OF FUNDS</td>
             </tr>
-            <tr class="table-inputs">
-                <td><input class="gpoa-inputs" maxlength="16" required></td>
-                <td><textarea class="gpoa-inputs-objectives" rows="1" required></textarea></td>
-                <td><textarea class="gpoa-inputs-objectives" rows="1" required></textarea></td>
-                <td><textarea class="gpoa-inputs-objectives" rows="1" required></textarea></td>
-                <td><input class="gpoa-inputs" maxlength="16" required></td>
-                <td><input class="gpoa-inputs" maxlength="25" required></td>
-            </tr>
+            {% for list in org_info %}
+                <tr class="table-inputs">
+                    <td><input class="gpoa-inputs" maxlength="25" required value="{{ list[0] }}"></td>
+                    <td><textarea class="gpoa-inputs-objectives" rows="1" required>{{ list[1] }}</textarea></td>
+                    <td><textarea class="gpoa-inputs-objectives" rows="1" required>{{ list[2] }}</textarea></td>
+                    <td><textarea class="gpoa-inputs-objectives" rows="1" required>{{ list[3] }}</textarea></td>
+                    <td><input class="gpoa-inputs" maxlength="25" required value="{{ list[4] }}"></td>
+                    <td><input class="gpoa-inputs" maxlength="25" required value="{{ list[5] }}"></td>
+                </tr>
+            {% endfor %}
         </table>
         <div class="gpoa-buttons">
             <button class="add-1" onclick="add_row()">+</button>
-            <form action="/validate_csv" method="post">
-                <input type="file" accept="csv" name="csv-file" class="input-none-csv">
-                <button class="add-csv">Add CSV</button>
+            <form action="/validate_csv" method="post" enctype="multipart/form-data" class="form-add">
+                <input type="file" accept=".csv" name="csv-file" class="input-none-csv" id="csv-file">
+                <button type="button" class="add-csv" id="upload-button">Add CSV</button>
             </form>
             <form id="gpoa-form" action="/submit" method="post" onsubmit="return check_all()">
                 <button type="submit" class="submit-gpoa">Submit</button>

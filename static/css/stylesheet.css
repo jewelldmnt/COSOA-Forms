@@ -42,8 +42,12 @@
   --z-fixed: 100;
   --z-modal: 1000;
 
-  /*========== border radius (di ko lam ung radius natin naglagay lang ako ng qt wahaha) ==========*/
-  --border_radius: 10px
+  /*========== buttons ==========*/
+  --border_radius: 10px;
+  --button-height: 50px;
+  --button-gap: 30px; 
+  --button-radius: 20px;  
+  --circle-diameter: 50px; 
 }
 
 /*========== Responsive typography ==========*/
@@ -398,7 +402,8 @@ header {
   height: calc(100vh - 88px);
   position: relative;
 }
-.wrapper-gpoa{
+
+.wrapper-gpoa {
   /*content setting*/
   padding-top: 2%;
   display: flex;
@@ -410,12 +415,13 @@ header {
 }
 
 .table-gpoa {
+  position: relative;
   border-collapse: collapse;
   width: 73%;
   text-align: center;
 }
 
-.table-gpoa td{
+.table-gpoa td {
   border: 1px solid var(--text-color-nb);
 }   
 
@@ -429,11 +435,13 @@ header {
   font-size: var(--p1-font-size);
 }
 
-.table-inputs td input{
-  font-size: var(--p2-font-size);
+.table-inputs td input {
+  font-size: var(--p1-font-size);
 }
 
-.gpoa-inputs{
+.gpoa-inputs {
+  color: var(--maroon);
+  font-size: var(--p1-font-size);
   padding-top: 48px;
   padding-bottom: 48px;
   width: 100%;
@@ -441,16 +449,19 @@ header {
   text-align: center;
 }
 
-.gpoa-inputs-objectives{
+.gpoa-inputs-objectives {
+  font-size: var(--p1-font-size);
   text-align: center; 
   color: var(--maroon);
   resize: none;
   overflow: auto;
   white-space: pre-wrap;
   word-wrap: break-word;
+  padding-top: 48px;
+  padding-bottom: 48px;
 }
 
-.gpoa-inputs-objectives::-webkit-scrollbar{
+.gpoa-inputs-objectives::-webkit-scrollbar {
   width: 0px;
 }
 
@@ -458,36 +469,52 @@ header {
   display: none;
 }
 
-
 .gpoa-buttons {
   display: flex;
   position: relative;
-  left: 30%;
+  left: 28%;
   padding: 1%;
-  gap: 20px;
+  gap: var(--button-gap);
 }
 
-.csvfile {
-  width: 100px;
+.add-csv, .submit-gpoa, .add-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--p1-font-size);
+  color: var(--white);
 }
 
-
-.add-1 {
-  background-color: var(--red);
+.add-csv, .submit-gpoa {
+  height: var(--button-height);
+  border-radius: var(--button-radius);
+  padding: 0 20px; /* Adjust padding as needed */
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .add-csv {
   background-color: var(--red);
-  border-radius: 5%;
+}
+
+.add-1 {
+  background-color: var(--red);
+  width: var(--circle-diameter);
+  height: var(--circle-diameter);
+  border-radius: 50%;
+  font-weight: 900;
 }
 
 .submit-gpoa {
   background-color: var(--yellow);
-  padding-left: 10%;
-  padding-right: 10%;
-  padding-bottom: 5%;
-  padding-top: 5%;
-  border-radius: 5%;
+}
+
+.add-1:hover, .add-csv:hover {
+  background-color: #630000;
+}
+
+.submit-gpoa:hover {
+  background-color: #d6a300;
 }
 
 /*=============== Sign In Sign Up ===============*/
