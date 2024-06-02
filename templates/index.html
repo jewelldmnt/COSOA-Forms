@@ -1,52 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "layout.html" %}
 
-      <!--=============== ICON ===============-->
-      <link rel="shortcut icon" href="/static/image/COSOA_Logo_Footer.png" type="image/x-icon">
-
-      <!--=============== REMIXICONS ===============-->
-      <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet">
-
-      <!--=============== BOXICON ===============-->
-      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-      <!--=============== CSS ===============-->
-      <link rel="stylesheet" href="/static/css/stylesheet.css">
-
-      <script src="/static/js/script.js"></script>
-
-      <title>PUP COSOA</title>
-   </head>
-<body>
-    <!--==================== HEADER ====================-->
-    <header>
-        <nav class="nav container">
-            <a href="#" class="nav__logo">
-                <img src="/static/image/COSOA_Logo.png" width="32" height="32" alt="COSOA Logo"></img>
-                <span class="logo__text">PUP COSOA</span>
-            </a>
-
-            <ul class="nav__list">
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">GPOA</a></li>
-                <li><a href="#">Nav4</a></li>
-            </ul>
-
-            <div class="auth">
-                <a href="#" id="sign__in"><i class="ri-user-fill"></i>Sign In</a>
-                <a href="#" id="sign__up" class="button">Sign Up</a>
-                <div class="bx bx-menu" id="menu--icon">
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main class="main">
-        <section class="home section">
+{% block body %}
             <div class="home__container container">
                 <div class="home__content">
                     <h1 class="home__title"><span>PUP</span> Student Council Commission on Student Organizations and Accreditation </h1>
@@ -65,35 +19,4 @@
                 <div class="clip-masked-element" id="bottom"></div>
             </div>
 
-        </section>
-    </main>
-        
-    <!--==================== FOOTER ====================-->
-    <footer class="footer">
-        <div class="footer__container container">
-            <h1 class="footer__title">
-                <img src="/static/image/COSOA_Logo_Footer.png" width="32" height="32" alt="COSOA Logo">
-                <span>PUP COSOA</span>
-            </h1>
-            
-            <p>
-                <i class="ri-map-pin-line"></i>
-                <span>201, Charlie del Rosario Building, Polytechnic University of the Philippines, Manila, Philippines</span>
-            </p>
-            <p>
-                <i class="ri-mail-line"></i>
-                <span>@iskolarngbayan.pup.edu.ph</span>
-            </p>
-
-            <hr size="1", width="100%">
-
-            <span class="footer__copy">
-               &#169; 2024 Diamante & Tolentino. All rights reserved.
-            </span>
-        </div>
-    </footer>
-
-    <script type="text/javascript" src="/static/js/script.js"></script>
-
-</body>
-</html>
+{% endblock %}
