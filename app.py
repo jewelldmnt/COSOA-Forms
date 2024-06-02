@@ -8,11 +8,19 @@ org_information = [['','','','','','']]
 
 @app.route("/")
 def index():
-    return render_template('gpoa.html', org_info=org_information)
+    return render_template('index.html', org_info=org_information)
 
 @app.route("/sign")
 def sign():
     return render_template('signinup.html')
+
+@app.route("/about")
+def about():
+    return render_template('about.html')
+
+@app.route("/home")
+def home():
+    return render_template('index.html')
 
 @app.route("/validate_csv", methods=['POST'])
 def validate_csv():
