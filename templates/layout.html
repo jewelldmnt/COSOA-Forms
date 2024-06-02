@@ -5,7 +5,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
       <!--=============== ICON ===============-->
-      <link rel="shortcut icon" href="/static/image/COSOA_Logo_Footer.png" type="image/x-icon">
+      <link rel="shortcut icon" href="../static/image/COSOA_Logo_Footer.png" type="image/x-icon">
 
       <!--=============== REMIXICONS ===============-->
       <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet">
@@ -14,9 +14,9 @@
       <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
       <!--=============== CSS ===============-->
-      <link rel="stylesheet" href="/static/css/stylesheet.css">
+      <link rel="stylesheet" href="../static/css/stylesheet.css">
 
-      <script src="/static/js/script.js"></script>
+      <!--<script src="../static/js/script.js"></script>-->
 
       <title>PUP COSOA</title>
    </head>
@@ -25,14 +25,14 @@
     <header>
         <nav class="nav container">
             <a href="#" class="nav__logo">
-                <img src="/static/image/COSOA_Logo.png" width="32" height="32" alt="COSOA Logo"></img>
+                <img src="../static/image/COSOA_Logo.png" width="32" height="32" alt="COSOA Logo"></img>
                 <span class="logo__text">PUP COSOA</span>
             </a>
 
             <ul class="nav__list">
                 <li><a href="#" class="active">Home</a></li>
                 <li><a href="#">About Us</a></li>
-                <li><a href="#">GPOA</a></li>
+                <li><a href="#">Nav3</a></li>
                 <li><a href="#">Nav4</a></li>
             </ul>
 
@@ -44,35 +44,17 @@
             </div>
         </nav>
     </header>
-
     <main class="main">
         <section class="home section">
-            <div class="home__container container">
-                <div class="home__content">
-                    <h1 class="home__title"><span>PUP</span> Student Council Commission on Student Organizations and Accreditation </h1>
-
-                    <p>The sole-accrediting body of all formations in PUP Sta. Mesa, Manila.</p>
-                    <a href="#" class="button">
-                        Get Started
-                    </a>
-                </div>
-            </div>
-            <div class="background">
-                <div class="clip-masked-element" id="top">
-                    <img src="/static/image/bg1.jpg" alt="Background Image">
-                </div>                
-                <div class="clip-masked-element" id="middle"></div>
-                <div class="clip-masked-element" id="bottom"></div>
-            </div>
-
+            {% block body %}{% endblock %}
         </section>
     </main>
-        
+
     <!--==================== FOOTER ====================-->
     <footer class="footer">
         <div class="footer__container container">
             <h1 class="footer__title">
-                <img src="/static/image/COSOA_Logo_Footer.png" width="32" height="32" alt="COSOA Logo">
+                <img src="../static/image/COSOA_Logo_Footer.png" width="32" height="32" alt="COSOA Logo">
                 <span>PUP COSOA</span>
             </h1>
             
@@ -92,8 +74,5 @@
             </span>
         </div>
     </footer>
-
-    <script type="text/javascript" src="/static/js/script.js"></script>
-
 </body>
 </html>

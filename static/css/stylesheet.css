@@ -42,8 +42,12 @@
   --z-fixed: 100;
   --z-modal: 1000;
 
-  /*========== border radius (di ko lam ung radius natin naglagay lang ako ng qt wahaha) ==========*/
-  --border_radius: 10px
+  /*========== buttons ==========*/
+  --border_radius: 10px;
+  --button-height: 50px;
+  --button-gap: 30px; 
+  --button-radius: 20px;  
+  --circle-diameter: 50px; 
 }
 
 /*========== Responsive typography ==========*/
@@ -236,7 +240,7 @@ header {
   color: var(--text-color-nb);
   font-size: var(--p2-font-size);
   font-weight: var(--font-medium);
-  tansition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 
@@ -393,6 +397,126 @@ header {
   margin-left: 0rem;
 }
 
+/*=============== GPOA ===============*/
+.background-mg {
+  height: calc(100vh - 88px);
+  position: relative;
+}
+
+.wrapper-gpoa {
+  /*content setting*/
+  padding-top: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  min-height: 30%;
+}
+
+.table-gpoa {
+  position: relative;
+  border-collapse: collapse;
+  width: 73%;
+  text-align: center;
+}
+
+.table-gpoa td {
+  border: 1px solid var(--text-color-nb);
+}   
+
+.table-header-gpoa td {
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: var(--maroon);
+  color: var(--white);
+  font-size: var(--p1-font-size);
+}
+
+.table-inputs td input {
+  font-size: var(--p1-font-size);
+}
+
+.gpoa-inputs {
+  color: var(--maroon);
+  font-size: var(--p1-font-size);
+  padding-top: 48px;
+  padding-bottom: 48px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.gpoa-inputs-objectives {
+  font-size: var(--p1-font-size);
+  text-align: center; 
+  color: var(--maroon);
+  resize: none;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.gpoa-inputs-objectives::-webkit-scrollbar {
+  width: 0px;
+}
+
+.input-none-csv {
+  display: none;
+}
+
+.gpoa-buttons {
+  display: flex;
+  position: relative;
+  left: 28%;
+  padding: 1%;
+  gap: var(--button-gap);
+}
+
+.add-csv, .submit-gpoa, .add-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--p1-font-size);
+  color: var(--white);
+}
+
+.add-csv, .submit-gpoa {
+  height: var(--button-height);
+  border-radius: var(--button-radius);
+  padding: 0 20px; /* Adjust padding as needed */
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.add-csv {
+  background-color: var(--red);
+}
+
+.add-1 {
+  background-color: var(--red);
+  width: var(--circle-diameter);
+  height: var(--circle-diameter);
+  border-radius: 50%;
+  font-weight: 900;
+}
+
+.submit-gpoa {
+  background-color: var(--yellow);
+}
+
+.add-1:hover, .add-csv:hover {
+  background-color: #630000;
+}
+
+.submit-gpoa:hover {
+  background-color: #d6a300;
+}
+
 /*=============== Sign In Sign Up ===============*/
 .background-container {
   /*background photo setting*/
@@ -529,7 +653,7 @@ header {
 }
 
 .input input {
-  /*settings of the input text an d shape*/
+  /*settings of the input text and shape*/
   width: 100%;
   height: 50px;
   font-size: var(--p2-font-size);
