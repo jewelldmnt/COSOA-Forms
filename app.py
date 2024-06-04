@@ -8,7 +8,7 @@ org_information = [['','','','','','']]
 
 @app.route("/")
 def index():
-    return render_template('index.html', org_info=org_information)
+    return render_template('index.html')
 
 @app.route("/sign")
 def sign():
@@ -17,6 +17,14 @@ def sign():
 @app.route("/about")
 def about():
     return render_template('about.html')
+
+@app.route("/waiver")
+def waiver():
+    return render_template('wav.html')
+
+@app.route("/gpoa")
+def gpoa():
+    return render_template('gpoa.html', org_info=org_information)
 
 @app.route("/home")
 def home():
