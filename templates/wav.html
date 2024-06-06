@@ -14,7 +14,7 @@
                             Informations
                         </li>
                         <li class="wav-formbold-step-menu3">
-                            <span>3</span>
+                            <span>2</span>
                             Signatures
                         </li>
                     </ul>
@@ -123,16 +123,6 @@
         
                     <button class="wav-formbold-btn">
                         Submit
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_1675_1807)">
-                        <path d="M10.7814 7.33312L7.20541 3.75712L8.14808 2.81445L13.3334 7.99979L8.14808 13.1851L7.20541 12.2425L10.7814 8.66645H2.66675V7.33312H10.7814Z" fill="white"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_1675_1807">
-                        <rect width="16" height="16" fill="white"/>
-                        </clipPath>
-                        </defs>
-                        </svg>
                     </button>
                 </div>
             </form>
@@ -148,26 +138,6 @@
 
     const formSubmitBtn = document.querySelector('.wav-formbold-btn');
     const formBackBtn = document.querySelector('.wav-formbold-back-btn');
-
-    const p = document.getElementById('wav-signature-p');
-    const vp = document.getElementById('wav-signature-vp');
-    const a = document.getElementById('wav-signature-a');
-
-    const filep = document.getElementById('wav-file-chosen-p');
-    const filevp = document.getElementById('wav-file-chosen-vp');
-    const filea = document.getElementById('wav-file-chosen-a');
-
-    p.addEventListener('change', function(){
-        filep.textContent = this.files[0].name
-    })
-
-    vp.addEventListener('change', function(){
-        filevp.textContent = this.files[0].name
-    })
-
-    a.addEventListener('change', function(){
-        filea.textContent = this.files[0].name
-    })
 
     formSubmitBtn.addEventListener("click", function(event) {
     event.preventDefault();
