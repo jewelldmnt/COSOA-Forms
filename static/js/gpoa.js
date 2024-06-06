@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('csv-file').addEventListener('change', function() {
         document.forms[0].submit();
     });
+
+    document.getElementById("gpoa-submit").addEventListener("click", submit_data());
 });
 
 function adjustTextareaHeights(default_height) {
@@ -151,4 +153,31 @@ function validate_row(columns) {
         }
     }
     return true;
+}
+
+function submit_data() {
+    var table = document.getElementById("gpoa-table");
+    var data = [];
+    var rows = table.rows;
+
+    // Iterate over each row in the table
+    for (var i = 0; i < rows.length; i++) {
+        var cells = rows[i].cells;
+        var rowData = [];
+
+        // Iterate over each cell in the row
+        for (var j = 0; j < cells.length; j++) {
+            rowData.push(cells[j].textContent);
+        }
+        data.push(rowData);
+    }
+
+    // Send the data to Flask route
+    fetch('/submit', {
+        method: 'POST',
+        headers: {
+            'link': 'gpoa'
+        },
+        body: JSON.stringify({ data: data })
+    })
 }
