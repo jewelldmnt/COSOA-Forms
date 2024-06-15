@@ -293,39 +293,39 @@ document.addEventListener("DOMContentLoaded", function () {
       !value.startsWith("@iskolarngbayan.pup.edu.ph")
     ) {
       PUPWebMail.setCustomValidity("");
-      PUPWebMail.classList.remove("error"); 
+      PUPWebMail.classList.remove("error");
     } else {
       PUPWebMail.setCustomValidity(
         "Please enter a valid email address ending with @iskolarngbayan.pup.edu.ph"
       );
-      PUPWebMail.classList.add("error"); 
+      PUPWebMail.classList.add("error");
     }
   });
 
   activeEmail.addEventListener("input", function () {
     var value = activeEmail.value.trim();
-    if (value.endsWith("@gmail.com")) {
+    if (value.endsWith("@gmail.com") && !value.startsWith("@gmail.com")) {
       activeEmail.setCustomValidity("");
-      activeEmail.classList.remove("error"); 
+      activeEmail.classList.remove("error");
     } else {
       activeEmail.setCustomValidity(
         "Please enter a valid email address ending with @gmail.com"
       );
-      activeEmail.classList.add("error"); 
+      activeEmail.classList.add("error");
     }
   });
 
   PUPWebMail.addEventListener("invalid", function () {
     if (PUPWebMail.validity.valueMissing) {
       PUPWebMail.setCustomValidity("This field is required");
-      PUPWebMail.classList.add("error"); 
+      PUPWebMail.classList.add("error");
     }
   });
 
   activeEmail.addEventListener("invalid", function () {
     if (activeEmail.validity.valueMissing) {
-      activeEmail.setCustomValidity("This field is required"); 
-      activeEmail.classList.add("error"); 
+      activeEmail.setCustomValidity("This field is required");
+      activeEmail.classList.add("error");
     }
   });
 });
