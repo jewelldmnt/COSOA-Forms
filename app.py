@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import pandas as pd
 from io import StringIO
+import sqlite3
 
 app = Flask(__name__)
 
@@ -67,14 +68,30 @@ def validate_csv():
                 org_information.append([row['month'],row['activity'],row['objectives'],row['organizer'],row['proposed budget'],row['source of funds']])
             return render_template("gpoa.html", org_info=org_information)
         except Exception as e:
-            print(e)
             return 'Error processing file. Column length must be 6 (MONTH, ACTIVITY, OBJECTIVES, ORGANIZER, PROPOSED BUDGET, SOURCE OF FUNDS)', 500
     else:
         return 'Invalid file type', 400 
 
 @app.route("/submit", methods=['POST'])
 def submit():
-    return "submitted"
+    # ON DEVELOPMENT PA (FOR GPOA TESTING)
+    conn = sqlite3.connect("data.db")
+    cur = conn.cursor()
+
+    # Check from which link it came from then add to which table the data belongs
+    html_link = request.headers.get('link')
+    if html_link == "gpoa":
+        gpoa_data = request.json.get('data')
+
+        cur.executemany("""
+            INSERT INTO gpoa(org_id,month,activity,objectives,organizer,proposed_budget,fund_src) VALUES(?,?,?,?,?,?,?)
+            """,gpoa_data)
+    # Close connection and cursor
+    cur.close()
+    conn.close()
+
+    # Return user to main page with alert message
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
