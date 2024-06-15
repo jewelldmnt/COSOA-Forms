@@ -894,6 +894,12 @@ header {
 #delete--button:hover {
   color: var(--red);
 }
+.form-input-flex input,
+.form-input-flex select {
+  font-weight: var(--regular);
+  font-family: var(--body-font);
+  font-size: var(--p2-font-size);
+}
 
 /*=============== RESPONSIVENESS ===============*/
 @media (max-width: 1080px) {
