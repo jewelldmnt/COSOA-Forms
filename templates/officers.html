@@ -16,24 +16,34 @@
       <div class="form-officer-1 active form">
         <div class="form-input-flex">
           <div>
+            <!-- PROGRAM INPUT -->
             <label for="Program" class="form-label"> Program </label>
             <select name="program" id="program" class="form-input" required>
               <option value="">Select Program</option>
               <option>University-Wide Student Organization</option>
               <option>College of Accountancy and Finance | CAF</option>
-              <option>College of Architecture, Design, and Built Environment | CADBE</option>
+              <option>
+                College of Architecture, Design, and Built Environment | CADBE
+              </option>
               <option>College of Arts and Letters | CAL</option>
               <option>College of Business Administration | CBA</option>
               <option>College of Communication | COC</option>
-              <option>College of Computer and Information Sciences | CCIS</option>
+              <option>
+                College of Computer and Information Sciences | CCIS
+              </option>
               <option>College of Education | COED</option>
               <option>College of Engineering | CE</option>
               <option>College of Human Kinetics | CHK</option>
               <option>College of Law | CL</option>
-              <option>College of Political Science and Public Administration | CPSPA</option>
+              <option>
+                College of Political Science and Public Administration | CPSPA
+              </option>
               <option>College of Social Sciences and Development | CSSD</option>
               <option>College of Science | CS</option>
-              <option>College of Tourism, Hospitality, and Transportation Management | CTHTM</option>
+              <option>
+                College of Tourism, Hospitality, and Transportation Management |
+                CTHTM
+              </option>
               <option>Institute of Technology | ITECH</option>
               <option>Open University System | OUS</option>
               <option>Graduate School | GS</option>
@@ -41,6 +51,7 @@
             </select>
           </div>
           <div>
+            <!-- ELECTED OFFICE INPUT -->
             <label for="elected_office" class="form-label">
               Elected Office
             </label>
@@ -54,6 +65,7 @@
             />
           </div>
           <div>
+            <!-- ACAD YEAR INPUT -->
             <label for="AY" class="form-label"> Academic Year </label>
             <select name="AY" id="AY" class="form-input" required>
               <option value="">Select Year</option>
@@ -65,9 +77,8 @@
         </div>
         <div class="form-input-flex">
           <div>
-            <label for="firstname" class="form-label">
-              First name
-            </label>
+            <!-- FIRST NAME INPUT -->
+            <label for="firstname" class="form-label"> First name </label>
             <input
               type="text"
               name="firstname"
@@ -78,6 +89,7 @@
             />
           </div>
           <div>
+            <!-- MID NAME INPUT -->
             <label for="midname" class="form-label">
               Middle name (if applicable)
             </label>
@@ -90,9 +102,8 @@
             />
           </div>
           <div>
-            <label for="lastname" class="form-label">
-              Last name
-            </label>
+            <!-- LAST NAME INPUT -->
+            <label for="lastname" class="form-label"> Last name </label>
             <input
               type="text"
               name="lastname"
@@ -105,6 +116,7 @@
         </div>
         <div class="form-input-flex">
           <div>
+            <!-- PRONOUNS INPUT -->
             <label for="pronouns" class="form-label"> Pronouns </label>
             <select name="pronouns" id="pronouns" class="form-input" required>
               <option value="">Select Pronouns</option>
@@ -115,6 +127,7 @@
             </select>
           </div>
           <div>
+            <!-- YEAR AND SECTION INPUT -->
             <label for="yearsection" class="form-label">
               Year and Section
             </label>
@@ -122,12 +135,14 @@
               type="text"
               name="yearsection"
               placeholder="3-4"
+              pattern="[1-4]-[1-8]|[1-4]-1n"
               id="yearsection"
               class="form-input"
               required
             />
           </div>
           <div>
+            <!-- DATE OF BIRTH INPUT -->
             <label for="dob" class="form-label"> Date of Birth </label>
             <input
               type="date"
@@ -140,6 +155,7 @@
         </div>
         <div class="form-input-flex">
           <div>
+            <!-- AGE INPUT -->
             <label for="age" class="form-label"> Age </label>
             <input
               type="number"
@@ -148,29 +164,29 @@
               id="age"
               class="form-input"
               required
-              min="1"
-              max="120"
+              min="18"
+              max="60"
             />
           </div>
           <div>
+            <!-- STUDENT NUMBER INPUT -->
             <label for="studentNumber" class="form-label">
               Student Number
             </label>
             <input
               type="text"
               name="studentNumber"
-              placeholder="20xx-0xxx-MN-0"
+              placeholder="20xx-xxxx-MN-0"
               id="studentNumber"
               class="form-input"
               required
-              pattern="\d{4}-\d{4}-[A-Z]{2}-\d{1}"
-              title="Format: 20xx-0xxx-XX-0"
+              pattern="20\d{2}-\d{4}-MN-0"
+              title="Format: 20xx-xxxx-MN-0"
             />
           </div>
           <div>
-            <label for="phoneNum" class="form-label">
-              Phone Number
-            </label>
+            <!-- PHONE NUMBER INPUT -->
+            <label for="phoneNum" class="form-label"> Phone Number </label>
             <input
               type="tel"
               name="phoneNum"
@@ -185,35 +201,34 @@
         </div>
         <div class="form-input-flex">
           <div>
-            <label for="PUPwebmail" class="form-label">
-              PUP Webmail
-            </label>
+            <!-- PUP WEBMAIL INPUT -->
+            <label for="PUPwebmail" class="form-label"> PUP Webmail </label>
             <input
               type="email"
               name="PUPwebmail"
               placeholder="xxx@iskolarngbayan.pup.edu.ph"
               id="PUPwebmail"
               class="form-input"
+              title="Please enter a valid email address with domain @iskolarngbayan.pup.edu.ph"
               required
             />
           </div>
           <div>
-            <label for="activeEmail" class="form-label">
-              Active Email
-            </label>
+            <!-- ACTIVE EMAIL INPUT -->
+            <label for="activeEmail" class="form-label"> Active Email </label>
             <input
               type="email"
               name="activeEmail"
               placeholder="coletvg@gmail.com"
               id="activeEmail"
               class="form-input"
+              title="Please enter a valid email address with domain @gmail.com"
               required
             />
           </div>
           <div>
-            <label for="fbLink" class="form-label">
-              Facebook Link
-            </label>
+            <!-- FB LINK INPUT -->
+            <label for="fbLink" class="form-label"> Facebook Link </label>
             <input
               type="url"
               name="fbLink"
