@@ -888,11 +888,16 @@ header {
 
 #delete--button {
   font-size: 24px;
-  order: -1; 
-  margin-right: auto; 
+  order: -1;
+  margin-right: auto;
 }
 #delete--button:hover {
   color: var(--red);
+}
+
+#back--button {
+  background: var(--body-color);
+  color: #536387;
 }
 .form-input-flex input,
 .form-input-flex select {
