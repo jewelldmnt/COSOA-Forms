@@ -31,6 +31,10 @@ def gpoa():
 def home():
     return render_template('index.html')
 
+@app.route("/officers")
+def officers():
+    return render_template('officers.html')
+
 @app.route("/validate_csv", methods=['POST'])
 def validate_csv():
     if 'csv-file' not in request.files:
