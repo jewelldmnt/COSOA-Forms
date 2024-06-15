@@ -5,6 +5,29 @@ var activeOfficer = 1;
 function addOfficer(event) {
   event.preventDefault();
 
+  // Validate current active officer form
+  var currentActiveForm = document.querySelector(".form.active");
+  var inputs = currentActiveForm.querySelectorAll(".form-input");
+
+  var isValid = true;
+  inputs.forEach(function (input) {
+    if (input.value.trim() === "" && input.hasAttribute("required")) {
+      isValid = false;
+      input.classList.add("error");
+    } else {
+      input.classList.remove("error");
+    }
+  });
+
+  if (!isValid) {
+    alert("Please fill in all required fields.");
+    var firstEmptyField = currentActiveForm.querySelector(".form-input.error");
+    if (firstEmptyField) {
+      firstEmptyField.focus(); // Focus on the first empty field
+    }
+    return;
+  }
+
   var electedOffice = prompt("Enter the name of the elected office:");
 
   if (electedOffice) {
@@ -78,7 +101,15 @@ function updateButtons() {
     return newSubmitBtn;
   }
 
-  let newSubmitBtn;
+  function replaceNextButton() {
+    const newNextBtn = document.createElement("button");
+    newNextBtn.id = "next--button";
+    newNextBtn.className = "button"; // Maintain the same class for styling
+    formSubmitBtn.parentNode.replaceChild(newNextBtn, formSubmitBtn);
+    return newNextBtn;
+  }
+
+  let newSubmitBtn, newNextBtn;
 
   if (maxStep === 1) {
     newSubmitBtn = replaceSubmitButton();
@@ -88,8 +119,9 @@ function updateButtons() {
   } else if (
     document.querySelector(`.form-officer-1`).classList.contains("active")
   ) {
-    formSubmitBtn.textContent = "Next";
-    formSubmitBtn.onclick = function (event) {
+    newNextBtn = replaceNextButton();
+    newNextBtn.textContent = "Next";
+    newNextBtn.onclick = function (event) {
       event.preventDefault();
       goToNextStep();
     };
@@ -106,8 +138,9 @@ function updateButtons() {
       formBackBtn.style.display = "none";
       formDelBtn.style.display = "none";
     } else {
-      formSubmitBtn.textContent = "Next";
-      formSubmitBtn.onclick = function (event) {
+      newNextBtn = replaceNextButton();
+      newNextBtn.textContent = "Next";
+      newNextBtn.onclick = function (event) {
         event.preventDefault();
         goToNextStep();
       };
