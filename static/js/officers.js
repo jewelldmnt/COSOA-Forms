@@ -60,6 +60,11 @@ function addOfficer(event) {
 
     var formSection = document.querySelector(".form-officer-1");
     var newFormSection = formSection.cloneNode(true);
+    // Clear input values in the cloned form section
+    var clonedInputs = newFormSection.querySelectorAll(".form-input");
+    clonedInputs.forEach(function (input) {
+      input.value = ""; // Reset input value
+    });
 
     newFormSection.className = "form-officer-" + officerCount + " active form";
     newFormSection.querySelector("#elected_office").value = electedOffice;
