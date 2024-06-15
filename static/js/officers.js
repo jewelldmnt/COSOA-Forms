@@ -69,11 +69,20 @@ function updateButtons() {
   const formDelBtn = document.querySelector("#delete--button");
   const maxStep = getMaxStepCount();
 
+  function replaceSubmitButton() {
+    const newSubmitBtn = document.createElement("input");
+    newSubmitBtn.type = "submit";
+    newSubmitBtn.id = "next--button";
+    newSubmitBtn.className = "button"; // Maintain the same class for styling
+    formSubmitBtn.parentNode.replaceChild(newSubmitBtn, formSubmitBtn);
+    return newSubmitBtn;
+  }
+
+  let newSubmitBtn;
+
   if (maxStep === 1) {
-    formSubmitBtn.textContent = "Submit";
-    formSubmitBtn.onclick = function () {
-      document.querySelector("form").submit();
-    };
+    newSubmitBtn = replaceSubmitButton();
+    newSubmitBtn.value = "Submit";
     formBackBtn.style.display = "none";
     formDelBtn.style.display = "none";
   } else if (
@@ -92,10 +101,10 @@ function updateButtons() {
         .querySelector(`.form-officer-${maxStep}`)
         .classList.contains("active")
     ) {
-      formSubmitBtn.textContent = "Submit";
-      formSubmitBtn.onclick = function () {
-        document.querySelector("form").submit();
-      };
+      newSubmitBtn = replaceSubmitButton();
+      newSubmitBtn.value = "Submit";
+      formBackBtn.style.display = "none";
+      formDelBtn.style.display = "none";
     } else {
       formSubmitBtn.textContent = "Next";
       formSubmitBtn.onclick = function (event) {
