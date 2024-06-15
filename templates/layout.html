@@ -32,13 +32,13 @@
             <ul class="nav__list">
                 <li><a href="{{ url_for('home') }}" class="active">Home</a></li>
                 <li><a href="{{ url_for('about') }}">About Us</a></li>
-                <li><a href="#">Nav3</a></li>
-                <li><a href="#">Nav4</a></li>
+                <li><a href="{{ url_for('gpoa') }}">General Plan of Activities</a></li>
+                <li><a href="{{ url_for('waiver') }}">Waiver of Responsibility</a></li>
             </ul>
 
             <div class="auth">
-                <a href="#" id="sign__in"><i class="ri-user-fill"></i>Sign In</a>
-                <a href="#" id="sign__up" class="button">Sign Up</a>
+                <a href="{{ url_for('sign') }}" id="sign__in"><i class="ri-user-fill"></i>Sign In</a>
+                <a href="{{ url_for('sign') }}" id="sign__up" class="button">Sign Up</a>
                 <div class="bx bx-menu" id="menu--icon">
                 </div>
             </div>
