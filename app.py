@@ -1,11 +1,18 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import pandas as pd
 from io import StringIO
 import sqlite3
 
 app = Flask(__name__)
 
-org_information = [['','','','','','']]
+# GLOBAL DEFAULT VARIABLES
+org_id = None
+
+gpoa_info = [['', '', '', '', '', '']]
+
+wav_info = {'cnso':'e.g., Association of Concerned Students (ACS)','coj':'Local Student Organization','scoj':'University-Wide Student Organization','ntso':'Academic Organization','cnsoa':'e.g., Instructor III Juan S. Dela Cruz'}
+
+officer_info = None #TODO: add a list that contains the officer_info
 
 @app.route("/")
 def index():
@@ -21,11 +28,12 @@ def about():
 
 @app.route("/waiver")
 def waiver():
-    return render_template('wav.html')
+    return render_template('wav.html', wav_info=wav_info)
 
 @app.route("/gpoa")
 def gpoa():
-    return render_template('gpoa.html', org_info=org_information)
+    global gpoa_info
+    return render_template('gpoa.html', org_info=gpoa_info)
 
 @app.route("/home")
 def home():
@@ -34,6 +42,40 @@ def home():
 @app.route("/officers")
 def officers():
     return render_template('officers.html')
+
+# TODO: add a route storing the data of officers and going from officers.html to gpoa.html (parang ung "store_wav_data")
+
+@app.route("/store_wav_data", methods=['POST'])
+def store_wav_data():
+    global wav_info
+    global org_id
+
+    # Store information and create unique organization id
+    wav_info = request.get_json()
+    words = wav_info['cnso'].split()
+    first_letters = [word[:2] for word in words]
+    org_id = '2024_' + ''.join(first_letters)
+    return redirect('/officers')
+
+@app.route("/submit", methods=['POST'])
+def submit():
+    global gpoa_info
+    
+    # Retrieve JSON data from request
+    gpoa_info = request.json.get('data')
+    print(gpoa_info)
+
+    # Example: process or store data as needed
+    # e.g., insert into database
+    # conn = sqlite3.connect("data.db")
+    # cur = conn.cursor()
+    # cur.execute("INSERT INTO gpoa (column1, column2, ...) VALUES (?, ?, ...)", gpoa_info['data'])
+    # conn.commit()
+    # cur.close()
+    # conn.close()
+
+    # Redirect to another page after processing
+    return jsonify({'message': 'Data received and processed successfully'})
 
 @app.route("/validate_csv", methods=['POST'])
 def validate_csv():
@@ -75,27 +117,6 @@ def validate_csv():
             return 'Error processing file. Column length must be 6 (MONTH, ACTIVITY, OBJECTIVES, ORGANIZER, PROPOSED BUDGET, SOURCE OF FUNDS)', 500
     else:
         return 'Invalid file type', 400 
-
-@app.route("/submit", methods=['POST'])
-def submit():
-    # ON DEVELOPMENT PA (FOR GPOA TESTING)
-    conn = sqlite3.connect("data.db")
-    cur = conn.cursor()
-
-    # Check from which link it came from then add to which table the data belongs
-    html_link = request.headers.get('link')
-    if html_link == "gpoa":
-        gpoa_data = request.json.get('data')
-
-        cur.executemany("""
-            INSERT INTO gpoa(org_id,month,activity,objectives,organizer,proposed_budget,fund_src) VALUES(?,?,?,?,?,?,?)
-            """,gpoa_data)
-    # Close connection and cursor
-    cur.close()
-    conn.close()
-
-    # Return user to main page with alert message
-    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

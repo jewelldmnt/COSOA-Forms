@@ -1,38 +1,43 @@
-const stepMenuOne = document.querySelector('.formbold-step-menu1')
-const stepMenuThree = document.querySelector('.formbold-step-menu3')
+document.addEventListener("DOMContentLoaded", function() {
+  const formSubmitBtn = document.querySelector('.wav-formbold-btn');
+  formSubmitBtn.addEventListener("click", function() {
+      store_wav_data();
+  });
+});
 
-const stepOne = document.querySelector('.formbold-form-step-1')
-const stepThree = document.querySelector('.formbold-form-step-3')
+function store_wav_data(){
+  // Store values
+  const cnsoValue = document.querySelector('input[name="cnso"]').value;
+  const cojValue = document.querySelector('select[name="coj"]').value;
+  const scojValue = document.querySelector('select[name="scoj"]').value;
+  const ntsoValue = document.querySelector('select[name="ntso"]').value;
+  const cnsoaValue = document.querySelector('input[name="cnsoa"]').value;
 
-const formSubmitBtn = document.querySelector('.formbold-btn')
-const formBackBtn = document.querySelector('.formbold-back-btn')
+  // Pass data in JSON form
+  const data = {
+    cnso: cnsoValue,
+    coj: cojValue,
+    scoj: scojValue,
+    ntso: ntsoValue,
+    cnsoa: cnsoaValue
+  };
 
-formSubmitBtn.addEventListener("click", function(event){
-  event.preventDefault()
-  if(stepMenuOne.className == 'formbold-step-menu1 active') {
-      event.preventDefault()
-
-      stepMenuOne.classList.remove('active')
-      stepMenuTwo.classList.add('active')
-
-      stepOne.classList.remove('active')
-      stepTwo.classList.add('active')
-
-      formBackBtn.classList.add('active')
-      formBackBtn.addEventListener("click", function (event) {
-        event.preventDefault()
-
-        stepMenuOne.classList.add('active')
-        stepMenuTwo.classList.remove('active')
-
-        stepOne.classList.add('active')
-        stepTwo.classList.remove('active')
-
-        formBackBtn.classList.remove('active')
-
-      })
-
-    } else if(stepMenuThree.className == 'formbold-step-menu3 active') {
-      document.querySelector('form').submit()
-    }
-})
+  fetch('/store_wav_data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'link': 'wav'
+      },
+      body: JSON.stringify(data)
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      // Redirect to gpoa.html after successful submission
+      window.location.href = '/officers'; // Adjust URL as per your Flask route
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
+}
