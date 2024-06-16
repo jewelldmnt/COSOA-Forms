@@ -45,7 +45,7 @@ function initializeFormNavigation() {
 document.addEventListener("DOMContentLoaded", initializeFormNavigation);
 
 document.addEventListener("DOMContentLoaded", function () {
-  const formSubmitBtn = document.querySelector(".wav-formbold-btn");
+  const formSubmitBtn = document.querySelector("#submit--button");
   formSubmitBtn.addEventListener("click", function () {
     store_wav_data();
   });
