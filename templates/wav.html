@@ -27,7 +27,7 @@
               <input
                 type="text"
                 name="cnso"
-                placeholder="e.g., Association of Concerned Students (ACS)"
+                value="{{ wav_info.cnso }}"
                 class="wav-formbold-form-input"
               />
             </div>
@@ -36,7 +36,7 @@
                 Classification of Jurisdiction
               </label>
               <select name="coj" class="wav-formbold-form-input">
-                <option>Local Student Organization</option>
+                <option>{{ wav_info.coj }}</option>
                 <option>University-Wide Student Organization</option>
               </select>
             </div>
@@ -48,7 +48,7 @@
                 Sub-Classification of Jurisdiction
               </label>
               <select name="scoj" class="wav-formbold-form-input">
-                <option>University-Wide Student Organization</option>
+                <option>{{ wav_info.scoj }}</option>
                 <option>College of Accountancy and Finance | CAF</option>
                 <option>
                   College of Architecture, Design, and Built Environment | CADBE
@@ -85,7 +85,7 @@
                 Nature/Type of Student Organization
               </label>
               <select name="ntso" class="wav-formbold-form-input">
-                <option>Academic Organization</option>
+                <option>{{ wav_info.ntso }}</option>
                 <option>Advocacy Organization</option>
                 <option>Cultural/Arts/Dance Organization</option>
                 <option>Fraternities and Sororities</option>
@@ -106,7 +106,7 @@
             <input
               type="text"
               name="cnsoa"
-              placeholder="e.g., Instructor III Juan S. Dela Cruz"
+              value="{{ wav_info.cnsoa }}"
               class="wav-formbold-form-input"
             />
           </div>

@@ -16,11 +16,11 @@
             </tr>
             {% for list in org_info %}
                 <tr class="table-inputs">
-                    <td><input class="gpoa-inputs" maxlength="25" required value="{{ list[0] }}"></td>
+                    <td><input id="month-input" class="gpoa-inputs" maxlength="25" required value="{{ list[0] }}"></td>
                     <td><textarea class="gpoa-inputs-objectives" rows="1" required>{{ list[1] }}</textarea></td>
                     <td><textarea class="gpoa-inputs-objectives" rows="1" required>{{ list[2] }}</textarea></td>
                     <td><textarea class="gpoa-inputs-objectives" rows="1" required>{{ list[3] }}</textarea></td>
-                    <td><input class="gpoa-inputs" maxlength="25" required value="{{ list[4] }}"></td>
+                    <td><input id="budget-input" class="gpoa-inputs" maxlength="25" required value="{{ list[4] }}"></td>
                     <td><input class="gpoa-inputs" maxlength="25" required value="{{ list[5] }}"></td>
                 </tr>
             {% endfor %}
