@@ -543,7 +543,7 @@ header {
 .wav-formbold-steps {
   padding-bottom: 18px;
   margin-bottom: 35px;
-  border-bottom: 1px solid #DDE3EC;
+  border-bottom: 1px solid #dde3ec;
 }
 .wav-formbold-steps ul {
   padding: 0;
@@ -561,7 +561,7 @@ header {
   color: #536387;
 }
 
-.wav-formbold-form-label-button{
+.wav-formbold-form-label-button {
   font-size: var(--p2-font-size);
   background-color: var(--yellow);
   color: var(--maroon);
@@ -571,7 +571,7 @@ header {
   margin-top: 1rem;
 }
 
-.wav-formbold-input-flex span{
+.wav-formbold-input-flex span {
   font-size: var(--p2-font-size);
   color: var(--maroon);
 }
@@ -579,7 +579,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #DDE3EC;
+  background: #dde3ec;
   border-radius: 50%;
   width: 36px;
   height: 36px;
@@ -588,11 +588,11 @@ header {
   color: var(--maroon);
 }
 .wav-formbold-steps li.active {
-  color: var(--maroon);;
+  color: var(--maroon);
 }
 .wav-formbold-steps li.active span {
   background: var(--maroon);
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .wav-formbold-input-flex {
@@ -604,15 +604,11 @@ header {
   width: 50%;
 }
 .wav-formbold-form-input {
-  font-style: italic;
-  opacity: 1;
   width: 100%;
   padding: 13px 22px;
   border-radius: 5px;
-  border: 1px solid #DDE3EC;
-  background: #FFFFFF;
-  font-size: 14px;
-  color: var(--light-gray);
+  border: 1px solid #dde3ec;
+  background: #ffffff;
   outline: none;
   resize: none;
 }
@@ -626,17 +622,16 @@ header {
   font-size: 14px;
   line-height: 24px;
   display: block;
-  margin-bottom: 10px;
 }
 .wav-formbold-form-input::placeholder {
   color: var(--light-gray);
-  font-style: italic; 
+  font-style: italic;
   font-weight: 100;
-  font-size: 14px;  
+  font-size: 14px;
 }
 
 .wav-formbold-form-confirm {
-  border-bottom: 1px solid #DDE3EC;
+  border-bottom: 1px solid #dde3ec;
   padding-bottom: 35px;
 }
 .wav-formbold-form-confirm p {
@@ -655,22 +650,22 @@ header {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #FFFFFF;
-  border: 0.5px solid #DDE3EC;
+  background: #ffffff;
+  border: 0.5px solid #dde3ec;
   border-radius: 5px;
   font-size: 16px;
   line-height: 24px;
   color: #536387;
   cursor: pointer;
   padding: 10px 20px;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 .wav-formbold-confirm-btn {
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.12);
 }
 .wav-formbold-confirm-btn.active {
-  background: #6A64F1;
-  color: #FFFFFF;
+  background: #6a64f1;
+  color: #ffffff;
 }
 
 .wav-formbold-form-step-1,
@@ -693,9 +688,9 @@ header {
 }
 .wav-formbold-back-btn {
   cursor: pointer;
-  background: #FFFFFF;
+  background: #ffffff;
   border: none;
-  color: #07074D;
+  color: #07074d;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
@@ -1049,11 +1044,9 @@ header {
 }
 .form-label {
   color: var(--maroon);
-  font-weight: 500;
   font-size: 14px;
   line-height: 24px;
   display: block;
-  margin-bottom: 10px;
 }
 .add__officer {
   width: 36px;
@@ -1080,10 +1073,9 @@ header {
   display: block;
 }
 .form-input::placeholder {
-  font-weight: 100;
   color: var(--light-gray);
   font-style: italic;
-  opacity: 1;
+  font-weight: 100;
   font-size: 14px;
 }
 
@@ -1096,15 +1088,19 @@ header {
   color: var(--red);
 }
 
-#back--button {
+#back--button, #back--button-wav {
   background: var(--body-color);
   color: #536387;
 }
 .form-input-flex input,
-.form-input-flex select {
+.wav-formbold-input-flex input,
+.form-wav-last-row input,
+.form-input-flex select,
+.wav-formbold-input-flex select {
   font-weight: var(--regular);
   font-family: var(--body-font);
   font-size: var(--p2-font-size);
+  color: #536387;
 }
 
 /*=============== RESPONSIVENESS ===============*/
