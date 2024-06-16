@@ -184,47 +184,6 @@
     </div>
   </div>
 </div>
-<script>
-  const stepMenuOne = document.querySelector(".wav-formbold-step-menu1");
-  const stepMenuThree = document.querySelector(".wav-formbold-step-menu3");
-
-  const stepOne = document.querySelector(".wav-formbold-form-step-1");
-  const stepThree = document.querySelector(".wav-formbold-form-step-3");
-
-  const formSubmitBtn = document.querySelector("#submit--button");
-  const formNextBttn = document.querySelector("#next--button-wav");
-  const formBackBtn = document.querySelector("#back--button-wav");
-
-  formNextBttn.addEventListener("click", function (event) {
-    event.preventDefault();
-    if (stepMenuOne.classList.contains("active")) {
-      stepMenuOne.classList.remove("active");
-      stepMenuThree.classList.add("active");
-
-      stepOne.classList.remove("active");
-      stepThree.classList.add("active");
-
-      formNextBttn.style.display = "none";
-      formBackBtn.style.display = "inline-block";
-      formSubmitBtn.style.display = "inline-block";
-    } else if (stepMenuThree.classList.contains("active")) {
-      document.querySelector("form").submit();
-    }
-  });
-
-  formBackBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-
-    stepMenuOne.classList.add("active");
-    stepMenuThree.classList.remove("active");
-
-    stepOne.classList.add("active");
-    stepThree.classList.remove("active");
-
-    formNextBttn.style.display = "inline-block";
-    formBackBtn.style.display = "none";
-    formSubmitBtn.style.display = "none";
-  });
-</script>
+<script src="../static/js/waiver.js"></script>
 
 {% endblock %}
