@@ -11,10 +11,6 @@
               <span>1</span>
               Informations
             </li>
-            <li class="wav-formbold-step-menu3">
-              <span>2</span>
-              Signatures
-            </li>
           </ul>
         </div>
 
@@ -27,16 +23,19 @@
               <input
                 type="text"
                 name="cnso"
+                placeholder="e.g., Association of Concerned Students (ACS)"
                 value="{{ wav_info.cnso }}"
                 class="wav-formbold-form-input"
+                required
               />
             </div>
             <div>
               <label for="coj" class="wav-formbold-form-label">
                 Classification of Jurisdiction
               </label>
-              <select name="coj" class="wav-formbold-form-input">
+              <select name="coj" class="wav-formbold-form-input" required>
                 <option>{{ wav_info.coj }}</option>
+                <option>Local Student Organization</option>
                 <option>University-Wide Student Organization</option>
               </select>
             </div>
@@ -47,8 +46,9 @@
               <label for="scoj" class="wav-formbold-form-label">
                 Sub-Classification of Jurisdiction
               </label>
-              <select name="scoj" class="wav-formbold-form-input">
+              <select name="scoj" class="wav-formbold-form-input" required>
                 <option>{{ wav_info.scoj }}</option>
+                <option>University-Wide Student Organization</option>
                 <option>College of Accountancy and Finance | CAF</option>
                 <option>
                   College of Architecture, Design, and Built Environment | CADBE
@@ -86,6 +86,7 @@
               </label>
               <select name="ntso" class="wav-formbold-form-input">
                 <option>{{ wav_info.ntso }}</option>
+                <option>Academic Organization</option>
                 <option>Advocacy Organization</option>
                 <option>Cultural/Arts/Dance Organization</option>
                 <option>Fraternities and Sororities</option>
@@ -105,126 +106,22 @@
             </label>
             <input
               type="text"
+              placeholder="e.g., Instructor III Juan S. Dela Cruz"
               name="cnsoa"
               value="{{ wav_info.cnsoa }}"
               class="wav-formbold-form-input"
+              required
             />
           </div>
         </div>
 
-        <div class="wav-formbold-form-step-3">
-          <div class="wav-formbold-form-confirm">
-            <p>
-              Please attach signatures from the listed individuals below to
-              confirm the acknowledgment (File must be "role.png/jpg")
-            </p>
-            <div class="wav-formbold-input-flex">
-              <div>
-                <label
-                  for="wav-signature-p"
-                  class="wav-formbold-form-label-button"
-                  >President</label
-                >
-                <input
-                  type="file"
-                  id="wav-signature-p"
-                  accept="image/png, image/gif, image/jpeg"
-                  name="pres"
-                  hidden
-                />
-                <span id="wav-file-chosen-p">No file chosen</span>
-              </div>
-              <div>
-                <label
-                  for="wav-signature-vp"
-                  class="wav-formbold-form-label-button"
-                  >Vice President</label
-                >
-                <input
-                  type="file"
-                  id="wav-signature-vp"
-                  accept="image/png, image/gif, image/jpeg"
-                  name="vpres"
-                  hidden
-                />
-                <span id="wav-file-chosen-vp">No file chosen</span>
-              </div>
-              <div>
-                <label
-                  for="wav-signature-a"
-                  class="wav-formbold-form-label-button"
-                  >Adviser</label
-                >
-                <input
-                  type="file"
-                  id="wav-signature-a"
-                  accept="image/png, image/gif, image/jpeg"
-                  name="adviser"
-                  hidden
-                />
-                <span id="wav-file-chosen-a">No file chosen</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="wav-formbold-form-btn-wrapper">
-          <button class="button" id="back--button-wav" style="display: none">
-            Back
-          </button>
-          <button class="button" id="next--button-wav">Next</button>
-          <input
-            class="button"
-            id="submit--button"
-            type="submit"
-            style="display: none"
-          />
+          <input class="button" id="submit--button" type="submit" />
         </div>
       </form>
     </div>
   </div>
 </div>
-<script>
-  const stepMenuOne = document.querySelector(".wav-formbold-step-menu1");
-  const stepMenuThree = document.querySelector(".wav-formbold-step-menu3");
-
-  const stepOne = document.querySelector(".wav-formbold-form-step-1");
-  const stepThree = document.querySelector(".wav-formbold-form-step-3");
-
-  const formSubmitBtn = document.querySelector("#submit--button");
-  const formNextBttn = document.querySelector("#next--button-wav");
-  const formBackBtn = document.querySelector("#back--button-wav");
-
-  formNextBttn.addEventListener("click", function (event) {
-    event.preventDefault();
-    if (stepMenuOne.classList.contains("active")) {
-      stepMenuOne.classList.remove("active");
-      stepMenuThree.classList.add("active");
-
-      stepOne.classList.remove("active");
-      stepThree.classList.add("active");
-
-      formNextBttn.style.display = "none";
-      formBackBtn.style.display = "inline-block";
-      formSubmitBtn.style.display = "inline-block";
-    } else if (stepMenuThree.classList.contains("active")) {
-      document.querySelector("form").submit();
-    }
-  });
-
-  formBackBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-
-    stepMenuOne.classList.add("active");
-    stepMenuThree.classList.remove("active");
-
-    stepOne.classList.add("active");
-    stepThree.classList.remove("active");
-
-    formNextBttn.style.display = "inline-block";
-    formBackBtn.style.display = "none";
-    formSubmitBtn.style.display = "none";
-  });
-</script>
+<script src="../static/js/waiver.js"></script>
 
 {% endblock %}
