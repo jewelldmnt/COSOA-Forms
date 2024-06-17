@@ -220,8 +220,8 @@ function submit_data() {
             throw new Error('Network response was not ok');
         }
         // Redirect to /officers after successful submission
-        window.location.href = '/home'; // Adjust URL as per your Flask route
+        window.location.href = '/'; // Adjust URL as per your Flask route
     }).catch(error => {
-        console.error('Error:', error);
+        console.error('Error:', "Something went wrong with the server");
     });
 }
