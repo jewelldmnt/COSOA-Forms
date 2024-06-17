@@ -5,8 +5,10 @@ PRAGMA foreign_keys = ON;
 CREATE TABLE org_creds(
     org_id VARCHAR(255) NOT NULL,
 	org_name VARCHAR(255) NOT NULL,
-  	email VARCHAR(255) NOT NULL,
-  	password VARCHAR(255),
+  	juris VARCHAR(255) NOT NULL,
+  	sub_juris VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    adviser VARCHAR(255) NOT NULL,
     PRIMARY KEY(org_id)
 );
 
@@ -22,15 +24,14 @@ CREATE TABLE gpoa(
 );
 
 --inserting values
-INSERT INTO org_creds(org_id, org_name, email, password) 
-VALUES("gdsc-2024", "google developer student club", "mdfl020103@gmail.com", "asdfawefasdfwe");
+INSERT INTO org_creds(org_id, org_name, juris, sub_juris, type, adviser) 
+VALUES("gdsc-2024", "google developer student club", "", "asdfawefasdfwe");
 
 INSERT INTO gpoa(org_id, month, activity, objectives,organizer,proposed_budget,fund_src) 
 VALUES("gdsc-2024", "november", "pintura ng red", "magpaint ng red", "mama mo red", "888888", "papa mo red");
 
 --table checking
-SELECT * FROM gpoa JOIN org_creds
-WHERE gpoa.org_id == org_creds.org_id;
+SELECT * FROM gpoa;
 
 --delete all data
 DELETE FROM org_creds;
