@@ -64,6 +64,9 @@ function addOfficer(event) {
     var clonedInputs = newFormSection.querySelectorAll(".form-input");
     clonedInputs.forEach(function (input) {
       input.value = ""; // Reset input value
+      if (input.name === "elected_office") {
+        input.removeAttribute("readonly"); // Remove the readonly attribute
+      }
     });
 
     newFormSection.className = "form-officer-" + officerCount + " active form";
@@ -92,63 +95,51 @@ function addCssRule(selector, rules) {
 
 // Function to update the button text based on the current step
 function updateButtons() {
-  const formSubmitBtn = document.querySelector("#next--button");
+  const formNextBtn = document.querySelector("#next--button");
+  const formSubmitBtn = document.querySelector("#submit--button-OR");
   const formBackBtn = document.querySelector("#back--button");
   const formDelBtn = document.querySelector("#delete--button");
   const maxStep = getMaxStepCount();
 
-  function replaceSubmitButton() {
-    const newSubmitBtn = document.createElement("input");
-    newSubmitBtn.type = "submit";
-    newSubmitBtn.id = "next--button";
-    newSubmitBtn.className = "button"; // Maintain the same class for styling
-    formSubmitBtn.parentNode.replaceChild(newSubmitBtn, formSubmitBtn);
-    return newSubmitBtn;
-  }
-
-  function replaceNextButton() {
-    const newNextBtn = document.createElement("button");
-    newNextBtn.id = "next--button";
-    newNextBtn.className = "button"; // Maintain the same class for styling
-    formSubmitBtn.parentNode.replaceChild(newNextBtn, formSubmitBtn);
-    return newNextBtn;
-  }
-
   let newSubmitBtn, newNextBtn;
 
   if (maxStep === 1) {
-    newSubmitBtn = replaceSubmitButton();
-    newSubmitBtn.value = "Submit";
     formBackBtn.style.display = "none";
     formDelBtn.style.display = "none";
+    formNextBtn.style.display = "none";
+    console.log("if statement is executed");
   } else if (
     document.querySelector(`.form-officer-1`).classList.contains("active")
   ) {
-    newNextBtn = replaceNextButton();
-    newNextBtn.textContent = "Next";
-    newNextBtn.onclick = function (event) {
+    formNextBtn.style.display = "inline-block";
+    formNextBtn.onclick = function (event) {
       event.preventDefault();
       goToNextStep();
     };
     formBackBtn.style.display = "none";
     formDelBtn.style.display = "none";
+    formSubmitBtn.style.display = "none";
+    console.log("else if statement is executed");
   } else {
     if (
       document
         .querySelector(`.form-officer-${maxStep}`)
         .classList.contains("active")
     ) {
-      newSubmitBtn = replaceSubmitButton();
-      newSubmitBtn.value = "Submit";
+      formSubmitBtn.style.display = "inline-block";
       formBackBtn.style.display = "none";
       formDelBtn.style.display = "none";
+      formNextBtn.style.display = "none";
+      console.log("else if statement is executed");
     } else {
-      newNextBtn = replaceNextButton();
-      newNextBtn.textContent = "Next";
-      newNextBtn.onclick = function (event) {
+      formNextBtn.style.display = "inline-block";
+      formSubmitBtn.style.display = "none";
+
+      formNextBtn.onclick = function (event) {
         event.preventDefault();
         goToNextStep();
       };
+      console.log("else else statement is executed");
     }
     formDelBtn.style.display = "inline-block";
     formBackBtn.style.display = "inline-block";
@@ -337,3 +328,100 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Scroll to active officer label on load
 window.addEventListener("load", scrollToActiveOfficer);
+
+document.addEventListener("DOMContentLoaded", function () {
+  const formSubmitBtn = document.querySelector("#submit--button-OR");
+  formSubmitBtn.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent form submission to handle validation
+
+    var currentActiveForm = document.querySelector(".form.active");
+    var inputs = currentActiveForm.querySelectorAll(".form-input");
+
+    var isValid = true;
+    inputs.forEach(function (input) {
+      if (input.value.trim() === "" && input.hasAttribute("required")) {
+        isValid = false;
+        input.classList.add("error");
+      } else {
+        input.classList.remove("error");
+      }
+    });
+
+    if (!isValid) {
+      alert("Please fill in all required fields.");
+      var firstEmptyField =
+        currentActiveForm.querySelector(".form-input.error");
+      if (firstEmptyField) {
+        firstEmptyField.focus(); // Focus on the first empty field
+      }
+    } else {
+      store_officers_data();
+    }
+  });
+});
+
+function store_officers_data() {
+  var forms = document.querySelectorAll(".form");
+  var officersData = [];
+
+  forms.forEach(function (form) {
+    // Extract values from each form
+    const programVal = form.querySelector('select[name="program"]').value;
+    const EOVal = form.querySelector('input[name="elected_office"]').value;
+    const AYVal = form.querySelector('select[name="AY"]').value;
+    const FNVal = form.querySelector('input[name="firstname"]').value;
+    const MDVal = form.querySelector('input[name="midname"]').value;
+    const LNVal = form.querySelector('input[name="lastname"]').value;
+    const pronounsVal = form.querySelector('select[name="pronouns"]').value;
+    const YSVal = form.querySelector('input[name="yearsection"]').value;
+    const DOBVal = form.querySelector('input[name="dob"]').value;
+    const ageVal = form.querySelector('input[name="age"]').value;
+    const SNVal = form.querySelector('input[name="studentNumber"]').value;
+    const PNVal = form.querySelector('input[name="phoneNum"]').value;
+    const webmailVal = form.querySelector('input[name="PUPwebmail"]').value;
+    const emailVal = form.querySelector('input[name="activeEmail"]').value;
+    const FBVal = form.querySelector('input[name="fbLink"]').value;
+
+    // Add extracted data to officersData array
+    officersData.push({
+      program: programVal,
+      elected_office: EOVal,
+      academic_year: AYVal,
+      first_name: FNVal,
+      middle_name: MDVal,
+      last_name: LNVal,
+      pronouns: pronounsVal,
+      year_section: YSVal,
+      date_of_birth: DOBVal,
+      age: ageVal,
+      student_number: SNVal,
+      phone_number: PNVal,
+      pup_webmail: webmailVal,
+      active_email: emailVal,
+      facebook_link: FBVal,
+    });
+  });
+
+  // Pass data in JSON form
+  const data = {
+    officers: officersData,
+  };
+
+  fetch("/store_officers_data", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      // Redirect to gpoa.html after successful submission
+      window.location.href = "/gpoa"; // Adjust URL as per your Flask route
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
