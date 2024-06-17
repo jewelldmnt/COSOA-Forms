@@ -59,9 +59,11 @@
               type="text"
               name="elected_office"
               placeholder="e.g. President"
+              value="President"
               id="elected_office"
               class="form-input"
               required
+              readonly
             />
           </div>
           <div>
@@ -180,8 +182,8 @@
               id="studentNumber"
               class="form-input"
               required
-              pattern="20\d{2}-\d{4}-MN-0"
-              title="Format: 20xx-xxxx-MN-0"
+              pattern="20\d{2}-\d{5}-MN-0"
+              title="Format: 20xx-xxxxx-MN-0"
             />
           </div>
           <div>
@@ -244,6 +246,7 @@
         <i class="ri-delete-bin-6-line" id="delete--button"></i>
         <button class="button" id="back--button">Back</button>
         <button class="button" id="next--button">Next</button>
+        <input class="button" id="submit--button-OR" type="submit">
       </div>
     </form>
   </div>

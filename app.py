@@ -11,7 +11,25 @@ org_id = None
 gpoa_info = [['', '', '', '', '', '']]
 
 wav_info = {'cnso':'','coj':'','scoj':'','ntso':'','cnsoa':''}
-officer_info = None #TODO: add a list that contains the officer_info
+officer_info = {
+    'president': {
+        'program': '', 
+        'EO': '', 
+        'AY': '', 
+        'FN': '', 
+        'MD': '', 
+        'LN': '', 
+        'pronouns': '', 
+        'YS': '', 
+        'DOB': '', 
+        'age': '',
+        'SN': '',
+        'PN': '',
+        'webmail': '',
+        'email': '',
+        'FB': ''
+    }
+}
 
 @app.route("/")
 def index():
@@ -31,6 +49,7 @@ def waiver():
 
 @app.route("/gpoa")
 def gpoa():
+    print_officer_info(officer_info)
     global gpoa_info
     return render_template('gpoa.html', org_info=gpoa_info)
 
@@ -44,7 +63,53 @@ def officers():
     return render_template('officers.html')
 
 # TODO: add a route storing the data of officers and going from officers.html to gpoa.html (parang ung "store_wav_data")
+@app.route("/store_officers_data", methods=['POST'])
+def store_officers_data():
+    global officer_info
 
+    # Get the JSON data from the request
+    data = request.get_json()
+
+    # Extract the officers data
+    officers = data.get('officers', [])
+
+    # Iterate over each officer and update the officer_info dictionary
+    for officer in officers:
+        elected_office = officer.get('elected_office', '').lower()
+        
+        if elected_office not in officer_info:
+            officer_info[elected_office] = {}
+
+        officer_info[elected_office] = {
+            'program': officer.get('program', ''),
+            'EO': officer.get('elected_office', ''),
+            'AY': officer.get('academic_year', ''),
+            'FN': officer.get('first_name', ''),
+            'MD': officer.get('middle_name', ''),
+            'LN': officer.get('last_name', ''),
+            'pronouns': officer.get('pronouns', ''),
+            'YS': officer.get('year_section', ''),
+            'DOB': officer.get('date_of_birth', ''),
+            'age': officer.get('age', ''),
+            'SN': officer.get('student_number', ''),
+            'PN': officer.get('phone_number', ''),
+            'webmail': officer.get('pup_webmail', ''),
+            'email': officer.get('active_email', ''),
+            'FB': officer.get('facebook_link', '')
+        }
+
+    # Optionally, you can return a JSON response instead of redirecting
+    # return jsonify({"status": "success", "data": officer_info})
+
+    return redirect('/gpoa')
+
+# Function to print the dictionary of dictionaries
+def print_officer_info(officer_info):
+    for office, info in officer_info.items():
+        print(f"Office: {office}")
+        for key, value in info.items():
+            print(f"  {key}: {value}")
+            
 @app.route("/store_wav_data", methods=['POST'])
 def store_wav_data():
     global wav_info
