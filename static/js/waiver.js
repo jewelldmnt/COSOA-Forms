@@ -1,53 +1,35 @@
-
-function initializeFormNavigation() {
-  const stepMenuOne = document.querySelector(".wav-formbold-step-menu1");
-  const stepMenuThree = document.querySelector(".wav-formbold-step-menu3");
-
-  const stepOne = document.querySelector(".wav-formbold-form-step-1");
-  const stepThree = document.querySelector(".wav-formbold-form-step-3");
-
-  const formSubmitBtn = document.querySelector("#submit--button");
-  const formNextBttn = document.querySelector("#next--button-wav");
-  const formBackBtn = document.querySelector("#back--button-wav");
-
-  formNextBttn.addEventListener("click", function (event) {
-    event.preventDefault();
-    if (stepMenuOne.classList.contains("active")) {
-      stepMenuOne.classList.remove("active");
-      stepMenuThree.classList.add("active");
-
-      stepOne.classList.remove("active");
-      stepThree.classList.add("active");
-
-      formNextBttn.style.display = "none";
-      formBackBtn.style.display = "inline-block";
-      formSubmitBtn.style.display = "inline-block";
-    } else if (stepMenuThree.classList.contains("active")) {
-      document.querySelector("form").submit();
-    }
-  });
-
-  formBackBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-
-    stepMenuOne.classList.add("active");
-    stepMenuThree.classList.remove("active");
-
-    stepOne.classList.add("active");
-    stepThree.classList.remove("active");
-
-    formNextBttn.style.display = "inline-block";
-    formBackBtn.style.display = "none";
-    formSubmitBtn.style.display = "none";
-  });
-}
-
-document.addEventListener("DOMContentLoaded", initializeFormNavigation);
-
 document.addEventListener("DOMContentLoaded", function () {
   const formSubmitBtn = document.querySelector("#submit--button");
-  formSubmitBtn.addEventListener("click", function () {
-    store_wav_data();
+  formSubmitBtn.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent form submission to handle validation
+
+    // Validate current active officer form
+    var currentActiveForm = document.querySelector(".wav-formbold-form-step-1");
+    var inputs = currentActiveForm.querySelectorAll(".wav-formbold-form-input");
+
+    var isValid = true;
+    inputs.forEach(function (input) {
+      if (input.value.trim() === "" && input.hasAttribute("required")) {
+        isValid = false;
+        input.classList.add("error");
+        input.setCustomValidity("This field is required");
+      } else {
+        input.classList.remove("error");
+        input.setCustomValidity(""); // Reset the custom validity message
+      }
+    });
+
+    if (!isValid) {
+      alert("Please fill in all required fields.");
+      var firstEmptyField = currentActiveForm.querySelector(
+        ".wav-formbold-form-input.error"
+      );
+      if (firstEmptyField) {
+        firstEmptyField.focus(); // Focus on the first empty field
+      }
+    } else {
+      store_wav_data();
+    }
   });
 });
 

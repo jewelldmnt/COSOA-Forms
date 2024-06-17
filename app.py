@@ -10,8 +10,7 @@ org_id = None
 
 gpoa_info = [['', '', '', '', '', '']]
 
-wav_info = {'cnso':'e.g., Association of Concerned Students (ACS)','coj':'Local Student Organization','scoj':'University-Wide Student Organization','ntso':'Academic Organization','cnsoa':'e.g., Instructor III Juan S. Dela Cruz'}
-
+wav_info = {'cnso':'','coj':'','scoj':'','ntso':'','cnsoa':''}
 officer_info = None #TODO: add a list that contains the officer_info
 
 @app.route("/")
@@ -41,6 +40,7 @@ def home():
 
 @app.route("/officers")
 def officers():
+    print(wav_info)
     return render_template('officers.html')
 
 # TODO: add a route storing the data of officers and going from officers.html to gpoa.html (parang ung "store_wav_data")
