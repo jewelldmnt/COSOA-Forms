@@ -67,5 +67,7 @@ function store_wav_data() {
     })
     .catch((error) => {
       console.error("Error:", error);
+      // Add an alert here saying "an error occurred"
+      alert("An error occurred: Organization already exists. Contact COSOA if you think this is an error.");
     });
 }
