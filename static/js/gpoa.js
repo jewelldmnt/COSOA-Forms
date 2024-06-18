@@ -67,8 +67,14 @@ function add_row(default_height) {
         for (let i = 0; i < 6; i++) {
             let cell = row.insertCell(i); // Create a new cell for each column
 
-            // Check if it's the first column or columns 4, 5 (0-based index)
-            if (i == 0 || i >= 4) {
+            // Add input depending on column
+            if (i == 0) {
+                let input = document.createElement('input'); // Create a new input element
+                input.setAttribute('class', 'gpoa-inputs');
+                input.setAttribute('type', 'date');
+                input.setAttribute('required', 'required');
+                cell.appendChild(input); // Append the input to the cell
+            } else if (i >= 4) {
                 let input = document.createElement('input'); // Create a new input element
                 input.setAttribute('class', 'gpoa-inputs');
                 input.setAttribute('maxlength', '16');
@@ -108,9 +114,6 @@ function add_row(default_height) {
 function adjustTextareaHeights(default_height) {
     // Get all isntances of 'textarea' tag
     const textareas = document.querySelectorAll(".gpoa-inputs-objectives");
-    const maxIncreases = 3;
-    let increaseCount = 0;
-
 
     // For each textarea add an eventlistener that adds height
     textareas.forEach(textarea => {
@@ -122,8 +125,9 @@ function adjustTextareaHeights(default_height) {
             let input_height = textarea.scrollHeight;
             textarea.style.height = `${input_height}px`;
 
-            // Adjust the Padding
-
+            // Adjust the input area of neighboring inputs and textareas
+            adjustNeighboringHeights();
+            
             // If height of table is greater than background height, adjust
             let tb_height = tb.offsetHeight;
             let bg_height = bg.offsetHeight;
@@ -138,6 +142,28 @@ function adjustTextareaHeights(default_height) {
             } else if ((tb_height / bg_height) > .21){
                 bg.style.height = `${default_height}px`
             }
+        });
+    });
+}
+
+function adjustNeighboringHeights() {
+    const rows = document.querySelectorAll("#gpoa-table .table-inputs");
+
+    rows.forEach(row => {
+        let maxHeight = 0;
+
+        // Find the maximum height of the elements in the row
+        row.querySelectorAll('input, textarea').forEach(element => {
+            element.style.height = "auto";
+            const elementHeight = element.scrollHeight;
+            if (elementHeight > maxHeight) {
+                maxHeight = elementHeight;
+            }
+        });
+
+        // Adjust the height of all elements to match the maxHeight
+        row.querySelectorAll('input, textarea').forEach(element => {
+            element.style.height = `${maxHeight}px`;
         });
     });
 }

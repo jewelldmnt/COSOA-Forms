@@ -16,7 +16,7 @@
             </tr>
             {% for list in org_info %}
                 <tr class="table-inputs">
-                    <td><input id="month-input" class="gpoa-inputs" maxlength="25" required value="{{ list[0] }}"></td>
+                    <td><input type="date" id="month-input" class="gpoa-inputs" required value="{{ list[0] }}"></td>
                     <td><textarea class="gpoa-inputs-objectives" rows="1" required>{{ list[1] }}</textarea></td>
                     <td><textarea class="gpoa-inputs-objectives" rows="1" required>{{ list[2] }}</textarea></td>
                     <td><textarea class="gpoa-inputs-objectives" rows="1" required>{{ list[3] }}</textarea></td>
