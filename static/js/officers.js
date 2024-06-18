@@ -142,17 +142,18 @@ function updateButtons() {
       console.log("else else statement is executed");
     }
     formDelBtn.style.display = "inline-block";
+    // Attach delete event to the delete button
+    formDelBtn.onclick = function (event) {
+      event.preventDefault();
+      deleteOfficer();
+    };
     formBackBtn.style.display = "inline-block";
     formBackBtn.onclick = function (event) {
       event.preventDefault();
       goToPreviousStep();
     };
   }
-  // Attach delete event to the delete button
-  formDelBtn.onclick = function (event) {
-    event.preventDefault();
-    deleteOfficer();
-  };
+
   // Keep track of the active form and label elements
   var ul = document.querySelector(".officers-div ul");
   var activeForm = document.querySelector("div.form.active");
@@ -170,6 +171,7 @@ function updateButtons() {
 
 // Function to delete the current officer
 function deleteOfficer() {
+  console.log(officerCount);
   if (officerCount > 1) {
     var ul = document.querySelector(".officers-div ul");
     var currentActiveStep = ul.querySelector("li.active");
@@ -359,7 +361,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-
 function store_officers_data() {
   var forms = document.querySelectorAll(".form");
   var officersData = [];
@@ -370,7 +371,7 @@ function store_officers_data() {
     const EOVal = form.querySelector('input[name="elected_office"]').value;
     const AYVal = form.querySelector('select[name="AY"]').value;
     const FNVal = form.querySelector('input[name="firstname"]').value;
-    const MDVal = form.querySelector('input[name="midname"]').value;
+    const MNVal = form.querySelector('input[name="midname"]').value;
     const LNVal = form.querySelector('input[name="lastname"]').value;
     const pronounsVal = form.querySelector('select[name="pronouns"]').value;
     const YSVal = form.querySelector('input[name="yearsection"]').value;
@@ -385,20 +386,20 @@ function store_officers_data() {
     // Add extracted data to officersData array
     officersData.push({
       program: programVal,
-      elected_office: EOVal,
-      academic_year: AYVal,
-      first_name: FNVal,
-      middle_name: MDVal,
-      last_name: LNVal,
+      EO: EOVal,
+      AY: AYVal,
+      FN: FNVal,
+      MN: MNVal,
+      LN: LNVal,
       pronouns: pronounsVal,
-      year_section: YSVal,
-      date_of_birth: DOBVal,
+      YS: YSVal,
+      DOB: DOBVal,
       age: ageVal,
-      student_number: SNVal,
-      phone_number: PNVal,
-      pup_webmail: webmailVal,
-      active_email: emailVal,
-      facebook_link: FBVal,
+      SN: SNVal,
+      PN: PNVal,
+      webmail: webmailVal,
+      email: emailVal,
+      FB: FBVal,
     });
   });
 
@@ -411,6 +412,7 @@ function store_officers_data() {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      link: "officers",
     },
     body: JSON.stringify(data),
   })
@@ -425,3 +427,95 @@ function store_officers_data() {
       console.error("Error:", error);
     });
 }
+function fetchOfficerInfo() {
+  fetch("/get_officer_info")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Officer Info:", data);
+
+      // Clone form-officer-1 for additional officers if there are more than 1 officer
+      if (data.length > 1) {
+        for (let i = 1; i < data.length; i++) {
+          console.log("Cloning form for officer", i + 1);
+          var ul = document.querySelector(".officers-div ul");
+          var currentActiveStep = ul.querySelector("li.active");
+          if (currentActiveStep) {
+            currentActiveStep.classList.remove("active");
+          }
+          var officerNumber = document.createElement("span");
+          officerNumber.textContent = i + 1;
+          var newLi = document.createElement("li");
+          newLi.className = "officer-label" + (i + 1);
+          newLi.classList.add("active");
+
+          newLi.appendChild(officerNumber);
+          newLi.appendChild(document.createTextNode(" " + data[i].EO));
+          ul.insertBefore(newLi, ul.lastElementChild);
+
+          var currentActiveForm = document.querySelector("div.form.active");
+          if (currentActiveForm) {
+            currentActiveForm.classList.remove("active");
+          }
+          // Clone the form section for officer 1 (assuming form-officer-1 is already in the HTML)
+          var formSection1 = document.querySelector(".form-officer-1");
+          var newFormSection = formSection1.cloneNode(true);
+
+          // Update class name to form-officer-(i+1) and make it active if it's the first officer
+          newFormSection.className = `form-officer-${i + 1} form`;
+
+          newFormSection.classList.add("active");
+          currentActiveForm.classList.remove("active");
+
+          // Update input values based on data
+          newFormSection.querySelector('select[name="program"]').value =
+            data[i].program;
+          newFormSection.querySelector('input[name="elected_office"]').value =
+            data[i].EO;
+          newFormSection.querySelector('select[name="AY"]').value = data[i].AY;
+          newFormSection.querySelector('input[name="firstname"]').value =
+            data[i].FN;
+          newFormSection.querySelector('input[name="midname"]').value =
+            data[i].MN;
+          newFormSection.querySelector('input[name="lastname"]').value =
+            data[i].LN;
+          newFormSection.querySelector('select[name="pronouns"]').value =
+            data[i].pronouns;
+          newFormSection.querySelector('input[name="yearsection"]').value =
+            data[i].YS;
+          newFormSection.querySelector('input[name="dob"]').value = data[i].DOB;
+          newFormSection.querySelector('input[name="age"]').value = data[i].age;
+          newFormSection.querySelector('input[name="studentNumber"]').value =
+            data[i].SN;
+          newFormSection.querySelector('input[name="phoneNum"]').value =
+            data[i].PN;
+          newFormSection.querySelector('input[name="PUPwebmail"]').value =
+            data[i].webmail;
+          newFormSection.querySelector('input[name="activeEmail"]').value =
+            data[i].email;
+          newFormSection.querySelector('input[name="fbLink"]').value =
+            data[i].FB;
+          addCssRule(`.form-officer-${i + 1}`, "display: none;");
+          addCssRule(`.form-officer-${i + 1}.active`, "display: block;");
+          // Insert cloned form section before the form button wrapper
+          var formButtonWrapper = document.querySelector(".form-btn-wrapper");
+          formButtonWrapper.parentNode.insertBefore(
+            newFormSection,
+            formButtonWrapper
+          );
+        }
+        // Update buttons and scroll to the active officer
+        officerCount = data.length
+        updateButtons();
+        scrollToActiveOfficer();
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+}
+fetchOfficerInfo();
