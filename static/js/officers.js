@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .querySelector("#submit--button-OR")
     .addEventListener("click", handleSubmit);
-  isEmailValid();
   updateButtons();
 });
 window.addEventListener("load", () => {
@@ -23,10 +22,11 @@ function isValidForm() {
     if (trimmedValue === "" && input.hasAttribute("required")) {
       isValid = false;
       input.classList.add("error");
-      createErrorMsg(input, "This field is required.");
+      createErrorMsg(input, "red", "This field is required.");
+      return;
     } else {
       input.classList.remove("error");
-      createErrorMsg(input, ""); // Clear error message
+      createErrorMsg(input, "hsl(165, 29%, 97%)", "This is an error message"); // Clear error message
     }
 
     // Check pattern validity if pattern attribute is present
@@ -37,10 +37,10 @@ function isValidForm() {
         input.classList.add("error");
         const patternError =
           input.getAttribute("title") || "Invalid input format.";
-        createErrorMsg(input, patternError);
+        createErrorMsg(input, "red", patternError);
       } else {
         input.classList.remove("error");
-        createErrorMsg(input, ""); // Clear error message
+        createErrorMsg(input, "hsl(165, 29%, 97%)", "This is an error message"); // Clear error message
       }
     }
 
@@ -50,18 +50,23 @@ function isValidForm() {
       if (!yearSectionPattern.test(trimmedValue)) {
         isValid = false;
         input.classList.add("error");
-        createErrorMsg(input, "Invalid year and section format.");
+        createErrorMsg(input, "red", "Invalid year and section format.");
       } else {
         input.classList.remove("error");
-        createErrorMsg(input, ""); // Clear error message
+        createErrorMsg(input, "hsl(165, 29%, 97%)", "This is an error message"); // Clear error message
       }
     }
-  });
 
-  // Validate emails using isEmailValid() function
-  if (!isEmailValid()) {
-    isValid = false;
-  }
+    if (input.name == "age"){
+      if (trimmedValue < 18 || trimmedValue > 60){
+        createErrorMsg(input, "red", "Age must be between 18 to 60");
+      }
+    }
+    // Validate emails using isEmailValid() function
+    if (!isEmailValid()) {
+      isValid = false;
+    }
+  });
 
   if (!isValid) {
     alert(
@@ -278,14 +283,12 @@ function scrollToActiveOfficer() {
     });
   }
 }
-function createErrorMsg(input, errorMsg) {
+function createErrorMsg(input, color, errorMsg) {
   let errorElement = input.nextElementSibling;
-  if (!errorElement || !errorElement.classList.contains("error-message")) {
-    errorElement = document.createElement("div");
-    errorElement.classList.add("error-message");
-    input.parentNode.insertBefore(errorElement, input.nextSibling);
+  if (errorElement && errorElement.classList.contains("error-message")) {
+    errorElement.textContent = errorMsg;
+    errorElement.style.color = color;
   }
-  errorElement.textContent = errorMsg;
 }
 
 function isEmailValid() {
@@ -305,11 +308,11 @@ function isEmailValid() {
     if (isValid) {
       console.log("Email is valid");
       input.classList.remove("error");
-      createErrorMsg(input, ""); // Clear error message
+      createErrorMsg(input, "hsl(165, 29%, 97%)", "This is an error message"); // Clear error message
     } else {
       console.log("Email is invalid");
       input.classList.add("error");
-      createErrorMsg(input, errorPrefix);
+      createErrorMsg(input, "red", errorPrefix);
     }
     return isValid;
   }
