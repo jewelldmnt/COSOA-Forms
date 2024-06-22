@@ -109,11 +109,42 @@ def store_wav_data():
     global org_id
 
     # Store information and create unique organization id
-    wav_info = request.get_json()
-    words = wav_info['cnso'].split()
+    temp = request.get_json()
+    words = temp['cnso'].split()
     first_letters = [word[:2] for word in words]
     org_id = '2024_' + ''.join(first_letters)
-    return redirect('/officers')
+
+    # Check if there is already an existing org_id
+    if not validate_org_id(org_id):
+        wav_info = request.get_json()
+        return redirect('/officers')
+    else:
+        # Return a JSON response with an error status
+        return jsonify({'error': 'Organization ID already exists'}), 409
+
+def validate_org_id(org_id):
+    # Create connection and select if there's a same id
+    conn = sqlite3.connect("data.db")
+    cur = conn.cursor()
+    x = cur.execute('SELECT org_id FROM wav WHERE org_id == "{}"'.format(org_id))
+
+    # Fetch the result
+    result = cur.fetchone()
+    print(org_id)
+    print(result)
+
+    # Close connections
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    if result == None:
+        print("\n\nf")
+        return False
+    else:
+        print("\n\nt")
+        return True
+
 
 @app.route("/submit", methods=['POST'])
 def submit():
