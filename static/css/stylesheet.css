@@ -153,6 +153,17 @@ svg {
 }
 
 /*=============== REUSABLE CSS ===============*/
+.error {
+  border-color: red;
+}
+
+.error-message {
+  color: var(--body-color);
+  font-size: 12px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
 /*=============== Button ===============*/
 .button {
   display: inline-block;
@@ -1021,7 +1032,7 @@ header {
 .form-input-flex {
   display: flex;
   gap: 20px;
-  margin-bottom: 22px;
+  margin-bottom: 1rem;
 }
 .form-input-flex > div {
   width: 50%;
@@ -1064,7 +1075,7 @@ header {
   align-items: center;
   justify-content: flex-end;
   gap: 25px;
-  margin-top: 25px;
+  margin-top: 4rem;
 }
 .form-officer-1 {
   display: none;
@@ -1088,7 +1099,8 @@ header {
   color: var(--red);
 }
 
-#back--button, #back--button-wav {
+#back--button,
+#back--button-wav {
   background: var(--body-color);
   color: #536387;
 }
