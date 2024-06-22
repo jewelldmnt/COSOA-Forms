@@ -438,6 +438,7 @@ header {
 }
 
 .gpoa-inputs {
+  background-color: var(--body-color);
   color: var(--maroon);
   font-size: var(--p1-font-size);
   padding-top: 48px;
@@ -448,6 +449,7 @@ header {
 }
 
 .gpoa-inputs-objectives {
+  background-color: var(--body-color);
   font-size: var(--p1-font-size);
   text-align: center;
   color: var(--maroon);
