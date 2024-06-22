@@ -184,7 +184,7 @@ function validate_row(columns) {
 }
 
 function submit_data() {
-    if (confirm("Are you sure you want to proceed? You cannot change data as per the instruction.")) {
+    if (confirm("If you already submitted the organization's information, it will be overwritten. Are you sure you want to proceed?")) {
         var table = document.getElementById("gpoa-table");
         var data = [];
         var rows = table.rows;

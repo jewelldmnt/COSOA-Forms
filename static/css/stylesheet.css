@@ -481,35 +481,24 @@ header {
 .gpoa-buttons {
   display: flex;
   position: relative;
-  left: 28%;
+  left: 22%;
   padding: 1%;
   gap: var(--button-gap);
 }
 
 .add-csv,
 .submit-gpoa,
-.add-1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: var(--p1-font-size);
-  color: var(--white);
-}
-
-.add-csv,
-.submit-gpoa {
-  height: var(--button-height);
-  border-radius: var(--button-radius);
-  padding: 0 20px; /* Adjust padding as needed */
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.add-csv {
+#gpoa-back {
   background-color: var(--red);
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  color: var(--white);
+  font-weight: var(--font-medium);
+  transition: box-shadow 0.4s;
 }
 
 .add-1 {
+  color: var(--white);
   background-color: var(--red);
   width: var(--circle-diameter);
   height: var(--circle-diameter);
@@ -517,17 +506,18 @@ header {
   font-weight: 900;
 }
 
-.submit-gpoa {
-  background-color: var(--yellow);
+.add-1:hover, 
+.add-csv:hover,
+.submit-gpoa:hover,
+#gpoa-back:hover {
+  border: none;
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px hsla(347, 100%, 40%, 0.35);
 }
 
-.add-1:hover,
-.add-csv:hover {
-  background-color: #630000;
-}
-
-.submit-gpoa:hover {
-  background-color: #d6a300;
+#gpoa-back {
+  background: var(--body-color);
+  color: #536387;
 }
 
 /*=============== Tracker form ===============*/
@@ -726,195 +716,6 @@ header {
 .wav-formbold-btn:hover {
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 }
-/*=============== Sign In Sign Up ===============*/
-.background-container {
-  /*background photo setting*/
-  background-image: url("../image/pup2_overlay.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  /*content setting*/
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  min-height: 100vh;
-}
-
-.wrapper {
-  /*settings of the yellow box*/
-  position: relative;
-  width: 46vh;
-  height: 53vh;
-}
-
-.form_wrapper {
-  /*setting of the content in the yellow box*/
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--light-gray);
-  box-shadow: 0px 5px 5px 2px rgba(0, 0, 0, 0.4);
-}
-
-.wrapper .form_wrapper.sign-up {
-  transform: rotate(8deg);
-}
-
-/*setting of the animation for the sign-in box with its respective animation*/
-.wrapper.animate-signin .form_wrapper.sign-in {
-  animation-name: animateSignin;
-  animation-duration: 1.25s;
-  animation-fill-mode: forwards;
-}
-
-/*animation for the sign-in box rotating*/
-@keyframes animateSignin {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-500px);
-  }
-  100% {
-    transform: translateX(0) rotate(8deg);
-  }
-}
-
-/*setting of the animation for the sign-up box with its respective animation*/
-.wrapper.animate-signup .form_wrapper.sign-in {
-  transform: rotate(8deg);
-  animation-name: animateRotate;
-  animation-duration: 0.8s;
-  animation-fill-mode: forwards;
-  animation-delay: 0.2s;
-}
-
-.wrapper.animate-signin .form_wrapper.sign-up {
-  animation-name: animateRotate;
-  animation-duration: 0.8s;
-  animation-fill-mode: forwards;
-  animation-delay: 0.2s;
-}
-
-/*animation for the sign-in box rotating*/
-@keyframes animateRotate {
-  0% {
-    transform: rotate(8deg);
-  }
-  100% {
-    transform: rotate(0);
-    z-index: 1;
-  }
-}
-
-/*setting of the animation for the sign-up box with its respective animation*/
-.wrapper.animate-signup .form_wrapper.sign-up {
-  animation-name: animateSignup;
-  animation-duration: 1.25s;
-  animation-fill-mode: forwards;
-}
-
-/*animation for the sign-in box rotating*/
-@keyframes animateSignup {
-  0% {
-    transform: translateX(0);
-    z-index: 1;
-  }
-  50% {
-    transform: translateX(500px);
-  }
-  100% {
-    transform: translateX(0) rotate(8deg);
-  }
-}
-
-.signin-title {
-  text-align: center;
-  padding-bottom: 3%;
-}
-
-.input {
-  /*position of all input contents*/
-  position: relative;
-  width: 90%;
-  margin: 3% 0;
-}
-
-.input label {
-  /*settings of the labels of an input*/
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 5px;
-  padding: 5px;
-  border-radius: var(--border_radius);
-  color: var(--text-color-nb);
-  pointer-events: none;
-  transition: 0.4s;
-}
-
-.input input {
-  /*settings of the input text and shape*/
-  width: 100%;
-  height: 50px;
-  font-size: var(--p2-font-size);
-  background: transparent;
-  padding: 10px;
-  border: 1px solid var(--text-color-nb);
-  border-bottom: 2px solid var(--text-color-nb);
-  border-left: 2px solid var(--text-color-nb);
-  border-radius: var(--border_radius);
-}
-
-.input input:focus ~ label,
-.input input:valid ~ label {
-  top: 0;
-  font-size: 14px;
-  background: var(--light-gray);
-  padding-left: 2;
-  padding-bottom: 0;
-}
-
-.login {
-  position: relative;
-  color: var(--white);
-  margin: 3% 0;
-  top: 0;
-  left: 0;
-  width: 90%;
-  height: 45px;
-  background: linear-gradient(to right, var(--maroon), #0c0c20);
-  border-radius: var(--border_radius);
-  cursor: pointer;
-  border: none;
-  outline: none;
-}
-
-.in-up-link {
-  font-size: 14px;
-  text-align: center;
-  margin: 10px 0;
-}
-
-.in-up-link p {
-  color: var(--text-color-nb);
-}
-.in-up-link p a {
-  color: var(--maroon);
-}
-
-.in-up-link p a:hover {
-  text-decoration: underline;
-}
-
 /*=============== About Page ===============*/
 .about {
   height: 100vh;

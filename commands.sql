@@ -45,7 +45,10 @@ CREATE TABLE gpoa(
 
 --inserting values
 INSERT INTO wav(org_id,org_name,juris,sub_juris,type,adviser) 
-VALUES("gdsc-2024", "google developer student club", "", "asdfawefasdfwe");
+VALUES("gdsc-2024", "google developer student club", "univ wide", "univ wider", "cult", "mama mo");
+
+INSERT INTO officers(org_id, program, role, acad_yr, f_name, m_name, l_name, pronoun, year_sec, birth, age, student_num, phone_num, webmail, email, fb_link) 
+VALUES("gdsc-2024", "college of tae", "pres", "2021-2022", "mt", "nade", "tol", "he-him", "3-4", "02-01-2003", "19", "2021-19532-MN-0", "092445242", "xxx@iskolarngbayan.edu.ph", "mdf02010@gmail.com", "https://www.facebook.com");
 
 INSERT INTO gpoa(org_id, month, activity, objectives,organizer,proposed_budget,fund_src) 
 VALUES("gdsc-2024", "november", "pintura ng red", "magpaint ng red", "mama mo red", "888888", "papa mo red");
