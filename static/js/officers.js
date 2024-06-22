@@ -1,88 +1,133 @@
 var officerCount = 1;
 var activeOfficer = 1;
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".add__officer").addEventListener("click", addOfficer);
+  document
+    .querySelector("#submit--button-OR")
+    .addEventListener("click", handleSubmit);
+  isEmailValid();
+  updateButtons();
+});
+window.addEventListener("load", () => {
+  fetchOfficerInfo();
+});
+
+function isValidForm() {
+  const currentForm = document.querySelector(".form.active");
+  const inputs = currentForm.querySelectorAll(".form-input");
+  let isValid = true;
+
+  // Validate form inputs
+  inputs.forEach((input) => {
+    const trimmedValue = input.value.trim();
+    if (trimmedValue === "" && input.hasAttribute("required")) {
+      isValid = false;
+      input.classList.add("error");
+      createErrorMsg(input, "This field is required.");
+    } else {
+      input.classList.remove("error");
+      createErrorMsg(input, ""); // Clear error message
+    }
+
+    // Check pattern validity if pattern attribute is present
+    if (input.hasAttribute("pattern")) {
+      const pattern = new RegExp(`^${input.getAttribute("pattern")}$`);
+      if (!pattern.test(trimmedValue)) {
+        isValid = false;
+        input.classList.add("error");
+        const patternError =
+          input.getAttribute("title") || "Invalid input format.";
+        createErrorMsg(input, patternError);
+      } else {
+        input.classList.remove("error");
+        createErrorMsg(input, ""); // Clear error message
+      }
+    }
+
+    // Custom pattern check for yearsection input
+    if (input.name === "yearsection") {
+      const yearSectionPattern = /^(1|2|3|4)-(1|2|3|4|5|1n)$/;
+      if (!yearSectionPattern.test(trimmedValue)) {
+        isValid = false;
+        input.classList.add("error");
+        createErrorMsg(input, "Invalid year and section format.");
+      } else {
+        input.classList.remove("error");
+        createErrorMsg(input, ""); // Clear error message
+      }
+    }
+  });
+
+  // Validate emails using isEmailValid() function
+  if (!isEmailValid()) {
+    isValid = false;
+  }
+
+  if (!isValid) {
+    alert(
+      "Please fill in all required fields and ensure pattern requirements are met."
+    );
+    currentForm.querySelector(".form-input.error").focus();
+  }
+
+  return isValid;
+}
+
+function addOfficerLabel(electedOffice) {
+  const ul = document.querySelector(".officers-div ul");
+  ul.querySelector("li.active")?.classList.remove("active");
+
+  const li = document.createElement("li");
+  li.className = `officer-label${officerCount} active`;
+  li.innerHTML = `<span>${officerCount}</span> ${electedOffice}`;
+
+  ul.insertBefore(li, ul.lastElementChild);
+}
+
+function addOfficerForm(electedOffice) {
+  var currentActiveForm = document.querySelector("div.form.active");
+  if (currentActiveForm) {
+    currentActiveForm.classList.remove("active");
+  }
+  var formSection = document.querySelector(".form-officer-1");
+  var newFormSection = formSection.cloneNode(true);
+  // Clear input values in the cloned form section
+  var clonedInputs = newFormSection.querySelectorAll(".form-input");
+  clonedInputs.forEach(function (input) {
+    input.value = ""; // Reset input value
+    if (input.name === "elected_office") {
+      input.removeAttribute("readonly"); // Remove the readonly attribute
+    }
+  });
+  newFormSection.className = "form-officer-" + officerCount + " active form";
+  newFormSection.querySelector("#elected_office").value = electedOffice;
+
+  formSection.parentNode.insertBefore(
+    newFormSection,
+    document.querySelector(".form-btn-wrapper")
+  );
+
+  addCssRule(`.form-officer-${officerCount}`, "display: none;");
+  addCssRule(`.form-officer-${officerCount}.active`, "display: block;");
+}
 
 // Function to add a new officer
 function addOfficer(event) {
   event.preventDefault();
 
-  // Validate current active officer form
-  var currentActiveForm = document.querySelector(".form.active");
-  var inputs = currentActiveForm.querySelectorAll(".form-input");
+  if (!isValidForm()) return;
 
-  var isValid = true;
-  inputs.forEach(function (input) {
-    if (input.value.trim() === "" && input.hasAttribute("required")) {
-      isValid = false;
-      input.classList.add("error");
-    } else {
-      input.classList.remove("error");
-    }
-  });
+  const electedOffice = prompt("Enter the name of the elected office:");
+  if (!electedOffice) return;
 
-  if (!isValid) {
-    alert("Please fill in all required fields.");
-    var firstEmptyField = currentActiveForm.querySelector(".form-input.error");
-    if (firstEmptyField) {
-      firstEmptyField.focus(); // Focus on the first empty field
-    }
-    return;
-  }
+  officerCount++;
+  activeOfficer = officerCount;
 
-  var electedOffice = prompt("Enter the name of the elected office:");
+  addOfficerLabel(electedOffice);
+  addOfficerForm(electedOffice);
 
-  if (electedOffice) {
-    var ul = document.querySelector(".officers-div ul");
-
-    var currentActiveStep = ul.querySelector("li.active");
-    if (currentActiveStep) {
-      currentActiveStep.classList.remove("active");
-    }
-
-    officerCount++;
-    activeOfficer = officerCount;
-
-    var officerNumber = document.createElement("span");
-    officerNumber.textContent = officerCount;
-
-    var newLi = document.createElement("li");
-    newLi.className = "officer-label" + officerCount;
-    newLi.classList.add("active");
-
-    newLi.appendChild(officerNumber);
-    newLi.appendChild(document.createTextNode(" " + electedOffice));
-
-    ul.insertBefore(newLi, ul.lastElementChild);
-
-    var currentActiveForm = document.querySelector("div.form.active");
-    if (currentActiveForm) {
-      currentActiveForm.classList.remove("active");
-    }
-
-    var formSection = document.querySelector(".form-officer-1");
-    var newFormSection = formSection.cloneNode(true);
-    // Clear input values in the cloned form section
-    var clonedInputs = newFormSection.querySelectorAll(".form-input");
-    clonedInputs.forEach(function (input) {
-      input.value = ""; // Reset input value
-      if (input.name === "elected_office") {
-        input.removeAttribute("readonly"); // Remove the readonly attribute
-      }
-    });
-
-    newFormSection.className = "form-officer-" + officerCount + " active form";
-    newFormSection.querySelector("#elected_office").value = electedOffice;
-
-    formSection.parentNode.insertBefore(
-      newFormSection,
-      document.querySelector(".form-btn-wrapper")
-    );
-
-    addCssRule(`.form-officer-${officerCount}`, "display: none;");
-    addCssRule(`.form-officer-${officerCount}.active`, "display: block;");
-
-    updateButtons();
-    scrollToActiveOfficer();
-  }
+  updateButtons();
+  scrollToActiveOfficer();
 }
 
 // Function to add a CSS rule
@@ -99,59 +144,42 @@ function updateButtons() {
   const formSubmitBtn = document.querySelector("#submit--button-OR");
   const formBackBtn = document.querySelector("#back--button");
   const formDelBtn = document.querySelector("#delete--button");
-  const maxStep = getMaxStepCount();
 
-  let newSubmitBtn, newNextBtn;
+  formNextBtn.style.display = "none";
+  formSubmitBtn.style.display = "none";
+  formBackBtn.style.display = "none";
+  formDelBtn.style.display = "none";
+
+  const maxStep = getMaxStepCount();
+  console.log("Max step is: " + maxStep);
+
+  const isFirstStepActive = document
+    .querySelector(`.form-officer-1`)
+    .classList.contains("active");
+  const isLastStepActive = document
+    .querySelector(`.form-officer-${maxStep}`)
+    .classList.contains("active");
 
   if (maxStep === 1) {
-    formBackBtn.style.display = "none";
-    formDelBtn.style.display = "none";
-    formNextBtn.style.display = "none";
-    console.log("if statement is executed");
-  } else if (
-    document.querySelector(`.form-officer-1`).classList.contains("active")
-  ) {
+    formSubmitBtn.style.display = "inline-block";
+  } else if (isFirstStepActive) {
     formNextBtn.style.display = "inline-block";
-    formNextBtn.onclick = function (event) {
-      event.preventDefault();
-      goToNextStep();
-    };
-    formBackBtn.style.display = "none";
-    formDelBtn.style.display = "none";
-    formSubmitBtn.style.display = "none";
-    console.log("else if statement is executed");
-  } else {
-    if (
-      document
-        .querySelector(`.form-officer-${maxStep}`)
-        .classList.contains("active")
-    ) {
-      formSubmitBtn.style.display = "inline-block";
-      formBackBtn.style.display = "none";
-      formDelBtn.style.display = "none";
-      formNextBtn.style.display = "none";
-      console.log("else if statement is executed");
-    } else {
-      formNextBtn.style.display = "inline-block";
-      formSubmitBtn.style.display = "none";
-
-      formNextBtn.onclick = function (event) {
-        event.preventDefault();
-        goToNextStep();
-      };
-      console.log("else else statement is executed");
-    }
+    formNextBtn.onclick = goToNextStep;
     formDelBtn.style.display = "inline-block";
-    // Attach delete event to the delete button
-    formDelBtn.onclick = function (event) {
-      event.preventDefault();
-      deleteOfficer();
-    };
+    formDelBtn.onclick = deleteOfficer;
+  } else if (!isLastStepActive) {
+    formNextBtn.style.display = "inline-block";
+    formNextBtn.onclick = goToNextStep;
+    formDelBtn.style.display = "inline-block";
+    formDelBtn.onclick = deleteOfficer;
     formBackBtn.style.display = "inline-block";
-    formBackBtn.onclick = function (event) {
-      event.preventDefault();
-      goToPreviousStep();
-    };
+    formBackBtn.onclick = goToPreviousStep;
+  } else {
+    formSubmitBtn.style.display = "inline-block";
+    formDelBtn.style.display = "inline-block";
+    formDelBtn.onclick = deleteOfficer;
+    formBackBtn.style.display = "inline-block";
+    formBackBtn.onclick = goToPreviousStep;
   }
 
   // Keep track of the active form and label elements
@@ -171,94 +199,71 @@ function updateButtons() {
 
 // Function to delete the current officer
 function deleteOfficer() {
-  console.log(officerCount);
-  if (officerCount > 1) {
-    var ul = document.querySelector(".officers-div ul");
-    var currentActiveStep = ul.querySelector("li.active");
-    var currentActiveForm = document.querySelector("div.form.active");
+  if (officerCount <= 1) return;
 
-    // Remove the active form and label
-    currentActiveStep.remove();
-    currentActiveForm.remove();
+  const ul = document.querySelector(".officers-div ul");
+  const currentStep = ul.querySelector("li.active");
+  const currentForm = document.querySelector("div.form.active");
 
-    // Decrease officer count
-    officerCount--;
+  currentStep.remove();
+  currentForm.remove();
 
-    // Adjust officer numbers and IDs for subsequent officers
-    var officers = ul.querySelectorAll("li:not(.add__officer)");
-    officers.forEach((li, index) => {
-      var officerNumber = li.querySelector("span");
-      if (officerNumber) {
-        officerNumber.textContent = index + 1;
-      }
-      li.className = "officer-label" + (index + 1);
-    });
+  officerCount--;
+  activeOfficer = Math.min(activeOfficer, officerCount);
 
-    var forms = document.querySelectorAll("div.form");
-    forms.forEach((form, index) => {
-      form.className = "form-officer-" + (index + 1) + " form";
-    });
+  ul.querySelectorAll("li:not(.add__officer)").forEach((li, index) => {
+    li.querySelector("span").textContent = index + 1;
+    li.className = `officer-label${index + 1}`;
+  });
 
-    // Set the new active officer
-    activeOfficer = Math.min(activeOfficer, officerCount);
-    if (activeOfficer > 0) {
-      ul.querySelectorAll("li")[activeOfficer - 1].classList.add("active");
-      forms[activeOfficer - 1].classList.add("active");
-    }
+  document.querySelectorAll("div.form").forEach((form, index) => {
+    form.className = `form-officer-${index + 1} form`;
+  });
 
-    updateButtons();
-    scrollToActiveOfficer();
+  if (activeOfficer > 0) {
+    ul.querySelectorAll("li")[activeOfficer - 1].classList.add("active");
+    document
+      .querySelectorAll("div.form")
+      [activeOfficer - 1].classList.add("active");
   }
-}
 
-function goToNextStep() {
-  if (activeOfficer == officerCount) {
-    activeOfficer = officerCount;
-  } else {
+  updateButtons();
+  scrollToActiveOfficer();
+}
+function changeActiveStep() {
+  document
+    .querySelector(".officers-div ul li.active")
+    .classList.remove("active");
+  document
+    .querySelector(`.officer-label${activeOfficer}`)
+    .classList.add("active");
+
+  document.querySelector("div.form.active").classList.remove("active");
+  document
+    .querySelector(`.form-officer-${activeOfficer}`)
+    .classList.add("active");
+
+  updateButtons();
+}
+function goToNextStep(event) {
+  event.preventDefault();
+  if (activeOfficer < officerCount) {
     activeOfficer++;
+    changeActiveStep();
   }
-  var ul = document.querySelector(".officers-div ul");
-  var currentActiveStep = ul.querySelector("li.active");
-  currentActiveStep.classList.remove("active");
-  currentActiveStep.nextElementSibling.classList.add("active");
-
-  var currentActiveForm = document.querySelector("div.form.active");
-  currentActiveForm.classList.remove("active");
-  currentActiveForm.nextElementSibling.classList.add("active");
-  updateButtons();
 }
 
-function goToPreviousStep() {
-  if (activeOfficer == 1) {
-    activeOfficer = 1;
-  } else {
+function goToPreviousStep(event) {
+  event.preventDefault();
+  if (activeOfficer > 1) {
     activeOfficer--;
+    changeActiveStep();
   }
-  var ul = document.querySelector(".officers-div ul");
-  var currentActiveStep = ul.querySelector("li.active");
-  currentActiveStep.classList.remove("active");
-  currentActiveStep.previousElementSibling.classList.add("active");
-
-  var currentActiveForm = document.querySelector("div.form.active");
-  currentActiveForm.classList.remove("active");
-  currentActiveForm.previousElementSibling.classList.add("active");
-  updateButtons();
 }
 
 // Function to get the max step count
 function getMaxStepCount() {
-  var formSections = document.querySelectorAll("[class^='form-officer-']");
-  var maxStep = 0;
-  formSections.forEach(function (section) {
-    var stepMatch = section.className.match(/form-officer-(\d+)/);
-    if (stepMatch) {
-      var step = parseInt(stepMatch[1]);
-      if (step > maxStep) {
-        maxStep = step;
-      }
-    }
-  });
-  return maxStep;
+  return document.querySelectorAll("[class^='form-officer-']").length;
 }
 
 // Function to scroll the active officer label into view
@@ -273,94 +278,79 @@ function scrollToActiveOfficer() {
     });
   }
 }
+function createErrorMsg(input, errorMsg) {
+  let errorElement = input.nextElementSibling;
+  if (!errorElement || !errorElement.classList.contains("error-message")) {
+    errorElement = document.createElement("div");
+    errorElement.classList.add("error-message");
+    input.parentNode.insertBefore(errorElement, input.nextSibling);
+  }
+  errorElement.textContent = errorMsg;
+}
 
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelector(".add__officer").addEventListener("click", addOfficer);
-  updateButtons();
-  scrollToActiveOfficer();
-});
+function isEmailValid() {
+  console.log("Email Validation");
 
-document.addEventListener("DOMContentLoaded", function () {
-  var PUPWebMail = document.getElementById("PUPwebmail");
-  var activeEmail = document.getElementById("activeEmail");
+  // Get the currently active form
+  var currentActiveForm = document.querySelector(".form.active");
 
-  PUPWebMail.addEventListener("input", function () {
-    var value = PUPWebMail.value.trim();
-    if (
-      value.endsWith("@iskolarngbayan.pup.edu.ph") &&
-      !value.startsWith("@iskolarngbayan.pup.edu.ph")
-    ) {
-      PUPWebMail.setCustomValidity("");
-      PUPWebMail.classList.remove("error");
+  // Ensure elements are fetched within the current form context
+  var PUPWebMail = currentActiveForm.querySelector("#PUPwebmail");
+  var activeEmail = currentActiveForm.querySelector("#activeEmail");
+
+  function validateEmail(input, domain, errorPrefix) {
+    const value = input.value.trim();
+    const isValid = value.endsWith(domain) && value.includes("@");
+    input.setCustomValidity(isValid ? "" : errorPrefix);
+    if (isValid) {
+      console.log("Email is valid");
+      input.classList.remove("error");
+      createErrorMsg(input, ""); // Clear error message
     } else {
-      PUPWebMail.setCustomValidity(
-        "Please enter a valid email address ending with @iskolarngbayan.pup.edu.ph"
-      );
-      PUPWebMail.classList.add("error");
+      console.log("Email is invalid");
+      input.classList.add("error");
+      createErrorMsg(input, errorPrefix);
     }
+    return isValid;
+  }
+
+  // Event listeners for input validation
+  PUPWebMail.addEventListener("input", function () {
+    validateEmail(
+      PUPWebMail,
+      "@iskolarngbayan.pup.edu.ph",
+      "Please enter a valid email address ending with @iskolarngbayan.pup.edu.ph"
+    );
   });
 
   activeEmail.addEventListener("input", function () {
-    var value = activeEmail.value.trim();
-    if (value.endsWith("@gmail.com") && !value.startsWith("@gmail.com")) {
-      activeEmail.setCustomValidity("");
-      activeEmail.classList.remove("error");
-    } else {
-      activeEmail.setCustomValidity(
-        "Please enter a valid email address ending with @gmail.com"
-      );
-      activeEmail.classList.add("error");
-    }
+    validateEmail(
+      activeEmail,
+      "@gmail.com",
+      "Please enter a valid email address ending with @gmail.com"
+    );
   });
 
-  PUPWebMail.addEventListener("invalid", function () {
-    if (PUPWebMail.validity.valueMissing) {
-      PUPWebMail.setCustomValidity("This field is required");
-      PUPWebMail.classList.add("error");
-    }
-  });
+  // Check validity immediately on page load
+  return (
+    validateEmail(
+      PUPWebMail,
+      "@iskolarngbayan.pup.edu.ph",
+      "Please enter a valid email address ending with @iskolarngbayan.pup.edu.ph"
+    ) &&
+    validateEmail(
+      activeEmail,
+      "@gmail.com",
+      "Please enter a valid email address ending with @gmail.com"
+    )
+  );
+}
 
-  activeEmail.addEventListener("invalid", function () {
-    if (activeEmail.validity.valueMissing) {
-      activeEmail.setCustomValidity("This field is required");
-      activeEmail.classList.add("error");
-    }
-  });
-});
+function handleSubmit(event) {
+  event.preventDefault();
+  if (isValidForm()) store_officers_data();
+}
 
-// Scroll to active officer label on load
-window.addEventListener("load", scrollToActiveOfficer);
-
-document.addEventListener("DOMContentLoaded", function () {
-  const formSubmitBtn = document.querySelector("#submit--button-OR");
-  formSubmitBtn.addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent form submission to handle validation
-
-    var currentActiveForm = document.querySelector(".form.active");
-    var inputs = currentActiveForm.querySelectorAll(".form-input");
-
-    var isValid = true;
-    inputs.forEach(function (input) {
-      if (input.value.trim() === "" && input.hasAttribute("required")) {
-        isValid = false;
-        input.classList.add("error");
-      } else {
-        input.classList.remove("error");
-      }
-    });
-
-    if (!isValid) {
-      alert("Please fill in all required fields.");
-      var firstEmptyField =
-        currentActiveForm.querySelector(".form-input.error");
-      if (firstEmptyField) {
-        firstEmptyField.focus(); // Focus on the first empty field
-      }
-    } else {
-      store_officers_data();
-    }
-  });
-});
 function store_officers_data() {
   var forms = document.querySelectorAll(".form");
   var officersData = [];
@@ -509,13 +499,13 @@ function fetchOfficerInfo() {
           );
         }
         // Update buttons and scroll to the active officer
-        officerCount = data.length
+        officerCount = data.length;
+        activeOfficer = officerCount;
+
         updateButtons();
-        scrollToActiveOfficer();
       }
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
 }
-fetchOfficerInfo();
