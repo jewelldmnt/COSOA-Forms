@@ -12,25 +12,23 @@ gpoa_info = [['', '', '', '', '', '']]
 
 wav_info = {'cnso':'','coj':'','scoj':'','ntso':'','cnsoa':''}
 
-officer_info = {
-    'president': {
-        'program': '', 
-        'EO': '', 
-        'AY': '', 
-        'FN': '', 
-        'MD': '', 
-        'LN': '', 
-        'pronouns': '', 
-        'YS': '', 
-        'DOB': '', 
-        'age': '',
-        'SN': '',
-        'PN': '',
-        'webmail': '',
-        'email': '',
-        'FB': ''
-    }
-}
+officer_info = [{
+                'program': '',
+            'EO': 'President',
+            'AY': '',
+            'FN': '',
+            'MN': '',
+            'LN': '',
+            'pronouns': '',
+            'YS': '',
+            'DOB':'',
+            'age': '',
+            'SN': '',
+            'PN': '',
+            'webmail': '',
+            'email': '',
+            'FB':''
+}]
 
 @app.route("/")
 def index():
@@ -50,13 +48,18 @@ def waiver():
 
 @app.route("/gpoa", methods=['POST','GET'])
 def gpoa():
-    print_officer_info(officer_info)
+    print(officer_info)
     global gpoa_info
     return render_template('gpoa.html', org_info=gpoa_info)
 
 @app.route("/officers", methods=['POST','GET'])
 def officers():
-    return render_template('officers.html')
+    global officer_info
+    return render_template('officers.html', officer_info=officer_info)
+
+@app.route('/get_officer_info', methods=['GET'])
+def get_officer_info():
+    return jsonify(officer_info)
 
 # TODO: add a route storing the data of officers and going from officers.html to gpoa.html (parang ung "store_wav_data")
 @app.route("/store_officers_data", methods=['POST'])
@@ -69,38 +72,35 @@ def store_officers_data():
     # Extract the officers data
     officers = data.get('officers', [])
 
-    # Iterate over each officer and update the officer_info dictionary
+    # Clear the existing officer_info
+    officer_info.clear()
+
+    # Add each officer's data to the officer_info list
     for officer in officers:
-        elected_office = officer.get('elected_office', '').lower()
-        
-        if elected_office not in officer_info:
-            officer_info[elected_office] = {}
-
-        officer_info[elected_office] = {
+        officer_info.append({
             'program': officer.get('program', ''),
-            'EO': officer.get('elected_office', ''),
-            'AY': officer.get('academic_year', ''),
-            'FN': officer.get('first_name', ''),
-            'MD': officer.get('middle_name', ''),
-            'LN': officer.get('last_name', ''),
+            'EO': officer.get('EO', ''),
+            'AY': officer.get('AY', ''),
+            'FN': officer.get('FN', ''),
+            'MN': officer.get('MN', ''),
+            'LN': officer.get('LN', ''),
             'pronouns': officer.get('pronouns', ''),
-            'YS': officer.get('year_section', ''),
-            'DOB': officer.get('date_of_birth', ''),
+            'YS': officer.get('YS', ''),
+            'DOB': officer.get('DOB', ''),
             'age': officer.get('age', ''),
-            'SN': officer.get('student_number', ''),
-            'PN': officer.get('phone_number', ''),
-            'webmail': officer.get('pup_webmail', ''),
-            'email': officer.get('active_email', ''),
-            'FB': officer.get('facebook_link', '')
-        }
-
+            'SN': officer.get('SN', ''),
+            'PN': officer.get('PN', ''),
+            'webmail': officer.get('webmail', ''),
+            'email': officer.get('email', ''),
+            'FB': officer.get('FB', '')
+        })
     return redirect('/gpoa')
 
 # Function to print the dictionary of dictionaries
 def print_officer_info(officer_info):
-    for office, info in officer_info.items():
-        print(f"Office: {office}")
-        for key, value in info.items():
+    for idx, officer in enumerate(officer_info):
+        print(f"Officer {idx + 1}:")
+        for key, value in officer.items():
             print(f"  {key}: {value}")
             
 @app.route("/store_wav_data", methods=['POST'])
@@ -109,11 +109,42 @@ def store_wav_data():
     global org_id
 
     # Store information and create unique organization id
-    wav_info = request.get_json()
-    words = wav_info['cnso'].split()
+    temp = request.get_json()
+    words = temp['cnso'].split()
     first_letters = [word[:2] for word in words]
     org_id = '2024_' + ''.join(first_letters)
-    return redirect('/officers')
+
+    # Check if there is already an existing org_id
+    if not validate_org_id(org_id):
+        wav_info = request.get_json()
+        return redirect('/officers')
+    else:
+        # Return a JSON response with an error status
+        return jsonify({'error': 'Organization ID already exists'}), 409
+
+def validate_org_id(org_id):
+    # Create connection and select if there's a same id
+    conn = sqlite3.connect("data.db")
+    cur = conn.cursor()
+    x = cur.execute('SELECT org_id FROM wav WHERE org_id == "{}"'.format(org_id))
+
+    # Fetch the result
+    result = cur.fetchone()
+    print(org_id)
+    print(result)
+
+    # Close connections
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    if result == None:
+        print("\n\nf")
+        return False
+    else:
+        print("\n\nt")
+        return True
+
 
 @app.route("/submit", methods=['POST'])
 def submit():
@@ -128,69 +159,16 @@ def submit():
 
         # sql queries for each database
         query_wav = "INSERT INTO wav(org_id,org_name,juris,sub_juris,type,adviser) VALUES ('{}',:cnso,:coj,:scoj,:ntso,:cnsoa)".format(org_id)
-
+        
         query_officers = """INSERT INTO officers(org_id,program,role,acad_yr,f_name,m_name,l_name,pronoun,year_sec,birth,age,student_num,phone_num,webmail,email,fb_link) 
         VALUES ('{}',:program,:EO,:AY,:FN,:MD,:LN,:pronouns,:YS,:DOB,:age,:SN,:PN,:webmail,:email,:FB)""".format(org_id)
 
         query_gpoa = "INSERT INTO gpoa(org_id,month,activity,objectives,organizer,proposed_budget,fund_src) VALUES ('{}',?,?,?,?,?,?)".format(org_id)
 
-        officer_info = [
-            {
-                'program': 'College of Arts and Letters | CAL',
-                'EO': 'President',
-                'AY': '2324',
-                'FN': 'ASDF',
-                'MD': 'ASDF',
-                'LN': 'Tolentino',
-                'pronouns': 'he/him',
-                'YS': '3-4',
-                'DOB': '2024-06-07',
-                'age': '18',
-                'SN': '2021-1052-MN-0',
-                'PN': '09000000000',
-                'webmail': 'shs@pup.edu.ph',
-                'email': 'shs@pup.edu.ph',
-                'FB': 'https://www.facebook.com/Miguel3Tolentino'
-            },
-            {
-                'program': 'College of Arts and Letters | CAL',
-                'EO': 'vice pres',
-                'AY': '2324',
-                'FN': 'ASDF',
-                'MD': 'ASDF',
-                'LN': 'Tolentino',
-                'pronouns': 'he/him',
-                'YS': '3-4',
-                'DOB': '2024-06-07',
-                'age': '18',
-                'SN': '2021-1052-MN-0',
-                'PN': '09000000000',
-                'webmail': 'shs@pup.edu.ph',
-                'email': 'shs@pup.edu.ph',
-                'FB': 'https://www.facebook.com/Miguel3Tolentino'
-            },
-            {
-                'program': 'College of Arts and Letters | CAL',
-                'EO': 'secretary',
-                'AY': '2324',
-                'FN': 'ASDF',
-                'MD': 'ASDF',
-                'LN': 'Tolentino',
-                'pronouns': 'he/him',
-                'YS': '3-4',
-                'DOB': '2024-06-07',
-                'age': '18',
-                'SN': '2021-1052-MN-0',
-                'PN': '09000000000',
-                'webmail': 'shs@pup.edu.ph',
-                'email': 'shs@pup.edu.ph',
-                'FB': 'https://www.facebook.com/Miguel3Tolentino'
-            }
-        ]
 
         # Insert data to database
         cur.execute(query_wav, wav_info)
-        cur.executemany(query_officers, officer_info)
+        # cur.executemany(query_officers, officer_info)
         cur.executemany(query_gpoa, gpoa_info)
 
         # Commit and close connections and cursor

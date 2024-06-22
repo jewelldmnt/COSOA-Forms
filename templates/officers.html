@@ -6,10 +6,10 @@
         <ul>
           <li class="officer-label1 active">
             <span>1</span>
-            President
+            {{ officer_info[0].EO}}
           </li>
           <li class="add__officer">
-            <button class="add__officer" onclick="addOfficer()">+</button>
+            <button type="button" class="add__officer">+</button>
           </li>
         </ul>
       </div>
@@ -19,7 +19,9 @@
             <!-- PROGRAM INPUT -->
             <label for="Program" class="form-label"> Program </label>
             <select name="program" id="program" class="form-input" required>
-              <option value="">Select Program</option>
+              <option value="{{ officer_info[0].program }}">
+                {{ officer_info[0].program }}
+              </option>
               <option>University-Wide Student Organization</option>
               <option>College of Accountancy and Finance | CAF</option>
               <option>
@@ -49,6 +51,7 @@
               <option>Graduate School | GS</option>
               <option>Senior High School | SHS</option>
             </select>
+            <div class="error-message">This is an error message</div>
           </div>
           <div>
             <!-- ELECTED OFFICE INPUT -->
@@ -59,22 +62,25 @@
               type="text"
               name="elected_office"
               placeholder="e.g. President"
-              value="President"
+              value="{{ officer_info[0].EO }}"
               id="elected_office"
               class="form-input"
               required
               readonly
             />
+            <div class="error-message">This is an error message</div>
           </div>
           <div>
             <!-- ACAD YEAR INPUT -->
             <label for="AY" class="form-label"> Academic Year </label>
             <select name="AY" id="AY" class="form-input" required>
-              <option value="">Select Year</option>
-              <option value="2324">2023-2024</option>
-              <option value="2425">2024-2025</option>
-              <!-- Add more options as needed -->
+              <option value="{{ officer_info[0].AY }}">
+                {{ officer_info[0].AY }}
+              </option>
+              <option value="2023-2024">2023-2024</option>
+              <option value="2024-2026">2024-2025</option>
             </select>
+            <div class="error-message">This is an error message</div>
           </div>
         </div>
         <div class="form-input-flex">
@@ -85,10 +91,12 @@
               type="text"
               name="firstname"
               placeholder="Maria Nicolette"
+              value="{{ officer_info[0].FN }}"
               id="firstname"
               class="form-input"
               required
             />
+            <div class="error-message">This is an error message</div>
           </div>
           <div>
             <!-- MID NAME INPUT -->
@@ -98,10 +106,12 @@
             <input
               type="text"
               name="midname"
+              value="{{ officer_info[0].MN }}"
               placeholder="Andrio"
               id="midname"
               class="form-input"
             />
+            <div class="error-message">This is an error message</div>
           </div>
           <div>
             <!-- LAST NAME INPUT -->
@@ -109,11 +119,13 @@
             <input
               type="text"
               name="lastname"
+              value="{{ officer_info[0].LN }}"
               placeholder="Vergara"
               id="lastname"
               class="form-input"
               required
             />
+            <div class="error-message">This is an error message</div>
           </div>
         </div>
         <div class="form-input-flex">
@@ -121,12 +133,15 @@
             <!-- PRONOUNS INPUT -->
             <label for="pronouns" class="form-label"> Pronouns </label>
             <select name="pronouns" id="pronouns" class="form-input" required>
-              <option value="">Select Pronouns</option>
+              <option value="{{ officer_info[0].pronouns }}">
+                {{ officer_info[0].pronouns }}
+              </option>
               <option value="she/her">she/her</option>
               <option value="he/him">he/him</option>
               <option value="they/them">they/them</option>
               <!-- Add more options as needed -->
             </select>
+            <div class="error-message">This is an error message</div>
           </div>
           <div>
             <!-- YEAR AND SECTION INPUT -->
@@ -136,23 +151,28 @@
             <input
               type="text"
               name="yearsection"
+              value="{{ officer_info[0].YS }}"
               placeholder="3-4"
               pattern="[1-4]-[1-8]|[1-4]-1n"
               id="yearsection"
               class="form-input"
               required
+              title="Format: e.g. 3-1, 3-1n"
             />
+            <div class="error-message">This is an error message</div>
           </div>
           <div>
             <!-- DATE OF BIRTH INPUT -->
             <label for="dob" class="form-label"> Date of Birth </label>
             <input
               type="date"
+              value="{{ officer_info[0].DOB }}"
               name="dob"
               id="dob"
               class="form-input"
               required
             />
+            <div class="error-message">This is an error message</div>
           </div>
         </div>
         <div class="form-input-flex">
@@ -162,6 +182,7 @@
             <input
               type="number"
               name="age"
+              value="{{ officer_info[0].age }}"
               placeholder="21"
               id="age"
               class="form-input"
@@ -169,6 +190,7 @@
               min="18"
               max="60"
             />
+            <div class="error-message">This is an error message</div>
           </div>
           <div>
             <!-- STUDENT NUMBER INPUT -->
@@ -179,12 +201,14 @@
               type="text"
               name="studentNumber"
               placeholder="20xx-xxxx-MN-0"
+              value="{{ officer_info[0].SN }}"
               id="studentNumber"
               class="form-input"
               required
               pattern="20\d{2}-\d{5}-MN-0"
               title="Format: 20xx-xxxxx-MN-0"
             />
+            <div class="error-message">This is an error message</div>
           </div>
           <div>
             <!-- PHONE NUMBER INPUT -->
@@ -193,12 +217,14 @@
               type="tel"
               name="phoneNum"
               placeholder="09xxxxxxxxx"
+              value="{{ officer_info[0].PN }}"
               id="phoneNum"
               class="form-input"
               required
               pattern="09\d{9}"
               title="Format: 09xxxxxxxxx"
             />
+            <div class="error-message">This is an error message</div>
           </div>
         </div>
         <div class="form-input-flex">
@@ -209,11 +235,13 @@
               type="email"
               name="PUPwebmail"
               placeholder="xxx@iskolarngbayan.pup.edu.ph"
+              value="{{ officer_info[0].webmail }}"
               id="PUPwebmail"
               class="form-input"
               title="Please enter a valid email address with domain @iskolarngbayan.pup.edu.ph"
               required
             />
+            <div class="error-message">This is an error message</div>
           </div>
           <div>
             <!-- ACTIVE EMAIL INPUT -->
@@ -221,12 +249,14 @@
             <input
               type="email"
               name="activeEmail"
+              value="{{ officer_info[0].email }}"
               placeholder="coletvg@gmail.com"
               id="activeEmail"
               class="form-input"
               title="Please enter a valid email address with domain @gmail.com"
               required
             />
+            <div class="error-message">This is an error message</div>
           </div>
           <div>
             <!-- FB LINK INPUT -->
@@ -234,11 +264,13 @@
             <input
               type="url"
               name="fbLink"
+              value="{{ officer_info[0].FB }}"
               id="fbLink"
               class="form-input"
               required
               placeholder="https://www.facebook.com/username"
             />
+            <div class="error-message">This is an error message</div>
           </div>
         </div>
       </div>
@@ -246,7 +278,7 @@
         <i class="ri-delete-bin-6-line" id="delete--button"></i>
         <button class="button" id="back--button">Back</button>
         <button class="button" id="next--button">Next</button>
-        <input class="button" id="submit--button-OR" type="submit">
+        <input class="button" id="submit--button-OR" type="submit" />
       </div>
     </form>
   </div>

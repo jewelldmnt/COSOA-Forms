@@ -210,44 +210,46 @@ function validate_row(columns) {
 }
 
 function submit_data() {
-    var table = document.getElementById("gpoa-table");
-    var data = [];
-    var rows = table.rows;
+    if (confirm("Are you sure you want to proceed? You cannot change data as per the instruction.")) {
+        var table = document.getElementById("gpoa-table");
+        var data = [];
+        var rows = table.rows;
 
-    // Iterate over each row in the table
-    for (var i = 1; i < rows.length; i++) { // Start from index 1 to skip the header row
-        var cells = rows[i].cells;
-        var rowData = [];
+        // Iterate over each row in the table
+        for (var i = 1; i < rows.length; i++) { // Start from index 1 to skip the header row
+            var cells = rows[i].cells;
+            var rowData = [];
 
-        // Iterate over each cell in the row
-        for (var j = 0; j < cells.length; j++) {
-            // Depending on the type of element (input, textarea), get the value appropriately
-            var cellContent = cells[j].querySelector('input, textarea').value;
-            rowData.push(cellContent);
+            // Iterate over each cell in the row
+            for (var j = 0; j < cells.length; j++) {
+                // Depending on the type of element (input, textarea), get the value appropriately
+                var cellContent = cells[j].querySelector('input, textarea').value;
+                rowData.push(cellContent);
+            }
+            data.push(rowData);
         }
-        data.push(rowData);
+
+        // Construct JSON object with data
+        const list_data = {
+            data: data
+        };
+
+        // Send the data to Flask route without expecting a response
+        fetch('/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'link': 'gpoa'
+            },
+            body: JSON.stringify(list_data)
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // Redirect to /officers after successful submission
+            window.location.href = '/'; // Adjust URL as per your Flask route
+        }).catch(error => {
+            console.error('Error:', "Something went wrong with the server");
+        });
     }
-
-    // Construct JSON object with data
-    const list_data = {
-        data: data
-    };
-
-    // Send the data to Flask route without expecting a response
-    fetch('/submit', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'link': 'gpoa'
-        },
-        body: JSON.stringify(list_data)
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        // Redirect to /officers after successful submission
-        window.location.href = '/'; // Adjust URL as per your Flask route
-    }).catch(error => {
-        console.error('Error:', "Something went wrong with the server");
-    });
 }
