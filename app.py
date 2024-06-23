@@ -8,6 +8,8 @@ app = Flask(__name__)
 # GLOBAL DEFAULT VARIABLES
 org_id = None
 
+has_data = False
+
 gpoa_info = [['', '', '', '', '', '']]
 
 wav_info = {'cnso':'','coj':'','scoj':'','ntso':'','cnsoa':''}
@@ -48,7 +50,6 @@ def waiver():
 
 @app.route("/gpoa", methods=['POST','GET'])
 def gpoa():
-    print(officer_info)
     global gpoa_info
     return render_template('gpoa.html', org_info=gpoa_info)
 
@@ -116,11 +117,13 @@ def store_wav_data():
 
     # Check if there is already an existing org_id
     if not validate_org_id(org_id):
+        has_data = False
         wav_info = request.get_json()
         return redirect('/officers')
     else:
-        # Return a JSON response with an error status
-        return jsonify({'error': 'Organization ID already exists'}), 409
+        has_data = True
+        wav_info = request.get_json()
+        return redirect('/officers')
 
 def validate_org_id(org_id):
     # Create connection and select if there's a same id
@@ -130,8 +133,6 @@ def validate_org_id(org_id):
 
     # Fetch the result
     result = cur.fetchone()
-    print(org_id)
-    print(result)
 
     # Close connections
     conn.commit()
@@ -139,10 +140,8 @@ def validate_org_id(org_id):
     conn.close()
 
     if result == None:
-        print("\n\nf")
         return False
     else:
-        print("\n\nt")
         return True
 
 
@@ -150,7 +149,7 @@ def validate_org_id(org_id):
 def submit():
     try:
         # Retrieve JSON data from request
-        global gpoa_info, wav_info, officer_info
+        global gpoa_info, wav_info, officer_info, has_data
         gpoa_info = request.json.get('data')
 
         # Create connections and cursor
@@ -158,17 +157,25 @@ def submit():
         cur = conn.cursor()
 
         # sql queries for each database
-        query_wav = "INSERT INTO wav(org_id,org_name,juris,sub_juris,type,adviser) VALUES ('{}',:cnso,:coj,:scoj,:ntso,:cnsoa)".format(org_id)
-        
-        query_officers = """INSERT INTO officers(org_id,program,role,acad_yr,f_name,m_name,l_name,pronoun,year_sec,birth,age,student_num,phone_num,webmail,email,fb_link) 
-        VALUES ('{}',:program,:EO,:AY,:FN,:MD,:LN,:pronouns,:YS,:DOB,:age,:SN,:PN,:webmail,:email,:FB)""".format(org_id)
+        if not has_data:
+            query_wav = "INSERT INTO wav(org_id,org_name,juris,sub_juris,type,adviser) VALUES ('{}',:cnso,:coj,:scoj,:ntso,:cnsoa)".format(org_id)
+            
+            query_officers = """INSERT INTO officers(org_id,program,role,acad_yr,f_name,m_name,l_name,pronoun,year_sec,birth,age,student_num,phone_num,webmail,email,fb_link) 
+            VALUES ('{}',:program,:EO,:AY,:FN,:MN,:LN,:pronouns,:YS,:DOB,:age,:SN,:PN,:webmail,:email,:FB)""".format(org_id)
 
-        query_gpoa = "INSERT INTO gpoa(org_id,month,activity,objectives,organizer,proposed_budget,fund_src) VALUES ('{}',?,?,?,?,?,?)".format(org_id)
+            query_gpoa = "INSERT INTO gpoa(org_id,month,activity,objectives,organizer,proposed_budget,fund_src) VALUES ('{}',?,?,?,?,?,?)".format(org_id)
+        else:
+            query_wav = "UPDATE wav SET org_name = :cnso, juris = :coj, sub_juris = :scoj, type = :ntso, adviser = :cnsoa  WHERE org_id = '{}'".format(org_id)
+
+            query_officers = """UPDATE officers SET program = :program, role = :EO, acad_yr = :AY, f_name = :FN, m_name = :MN, l_name = :LN, pronoun = :pronouns, 
+            year_sec = :YS, birth = :DOB, age = :age, student_num = :SN, phone_num = :PN, webmail = :webmail, email = :email, fb_link = :FB WHERE org_id = '{}'""".format(org_id)
+
+            query_gpoa = "UPDATE gpoa SET month = ?, activity = ?, objectives = ?, organizer = ?, proposed_budget = ?, fund_src = ? WHERE org_id = '{}'".format(org_id)
 
 
-        # Insert data to database
+        # Insert/Alter data to database
         cur.execute(query_wav, wav_info)
-        # cur.executemany(query_officers, officer_info)
+        cur.executemany(query_officers, officer_info)
         cur.executemany(query_gpoa, gpoa_info)
 
         # Commit and close connections and cursor
@@ -182,7 +189,6 @@ def submit():
     except Exception as e:
         cur.close()
         conn.close()
-        print(e)
         return jsonify({'error': 'Something went wrong with the server'})
 
 @app.route("/validate_csv", methods=['POST'])

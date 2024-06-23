@@ -26,6 +26,7 @@
             {% endfor %}
         </table>
         <div class="gpoa-buttons">
+            <button id="gpoa-back" onclick="window.location.href='/officers'">Back</button>
             <button class="add-1" onclick="add_row()">+</button>
             <form action="/validate_csv" method="post" enctype="multipart/form-data" class="form-add">
                 <input type="file" accept=".csv" name="csv-file" class="input-none-csv" id="csv-file">
