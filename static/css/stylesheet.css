@@ -508,7 +508,7 @@ header {
   font-weight: 900;
 }
 
-.add-1:hover, 
+.add-1:hover,
 .add-csv:hover,
 .submit-gpoa:hover,
 #gpoa-back:hover {
@@ -601,7 +601,7 @@ header {
 .wav-formbold-input-flex {
   display: flex;
   gap: 20px;
-  margin-bottom: 22px;
+  margin-bottom: 1rem;
 }
 .wav-formbold-input-flex > div {
   width: 50%;
@@ -687,7 +687,7 @@ header {
   align-items: center;
   justify-content: flex-end;
   gap: 25px;
-  margin-top: 25px;
+  margin-top: 2rem;
 }
 .wav-formbold-back-btn {
   cursor: pointer;

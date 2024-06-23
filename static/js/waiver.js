@@ -12,26 +12,29 @@ document.addEventListener("DOMContentLoaded", function () {
       if (input.value.trim() === "" && input.hasAttribute("required")) {
         isValid = false;
         input.classList.add("error");
-        input.setCustomValidity("This field is required");
+        createErrorMsg(input, "red", "This field is required.");
+        return;
       } else {
         input.classList.remove("error");
-        input.setCustomValidity(""); // Reset the custom validity message
+        createErrorMsg(input, "hsl(165, 29%, 97%)", "This is an error message"); 
       }
     });
 
     if (!isValid) {
       alert("Please fill in all required fields.");
-      var firstEmptyField = currentActiveForm.querySelector(
-        ".wav-formbold-form-input.error"
-      );
-      if (firstEmptyField) {
-        firstEmptyField.focus(); // Focus on the first empty field
-      }
     } else {
       store_wav_data();
     }
   });
 });
+
+function createErrorMsg(input, color, errorMsg) {
+  let errorElement = input.nextElementSibling;
+  if (errorElement && errorElement.classList.contains("error-message")) {
+    errorElement.textContent = errorMsg;
+    errorElement.style.color = color;
+  }
+}
 
 function store_wav_data() {
   // Store values
@@ -68,6 +71,8 @@ function store_wav_data() {
     .catch((error) => {
       console.error("Error:", error);
       // Add an alert here saying "an error occurred"
-      alert("An error occurred: Organization already exists. Contact COSOA if you think this is an error.");
+      alert(
+        "An error occurred: Organization already exists. Contact COSOA if you think this is an error."
+      );
     });
 }

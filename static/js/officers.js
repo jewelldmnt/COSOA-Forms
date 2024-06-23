@@ -57,8 +57,8 @@ function isValidForm() {
       }
     }
 
-    if (input.name == "age"){
-      if (trimmedValue < 18 || trimmedValue > 60){
+    if (input.name == "age") {
+      if (trimmedValue < 18 || trimmedValue > 60) {
         createErrorMsg(input, "red", "Age must be between 18 to 60");
       }
     }
@@ -152,7 +152,6 @@ function updateButtons() {
 
   formNextBtn.style.display = "none";
   formSubmitBtn.style.display = "none";
-  formBackBtn.style.display = "none";
   formDelBtn.style.display = "none";
 
   const maxStep = getMaxStepCount();
@@ -167,23 +166,24 @@ function updateButtons() {
 
   if (maxStep === 1) {
     formSubmitBtn.style.display = "inline-block";
+    formBackBtn.onclick = null; 
   } else if (isFirstStepActive) {
     formNextBtn.style.display = "inline-block";
     formNextBtn.onclick = goToNextStep;
-    formDelBtn.style.display = "inline-block";
     formDelBtn.onclick = deleteOfficer;
+    formBackBtn.onclick = null; 
   } else if (!isLastStepActive) {
     formNextBtn.style.display = "inline-block";
     formNextBtn.onclick = goToNextStep;
     formDelBtn.style.display = "inline-block";
     formDelBtn.onclick = deleteOfficer;
-    formBackBtn.style.display = "inline-block";
+    formBackBtn.classList.remove = 'href';
     formBackBtn.onclick = goToPreviousStep;
   } else {
     formSubmitBtn.style.display = "inline-block";
     formDelBtn.style.display = "inline-block";
     formDelBtn.onclick = deleteOfficer;
-    formBackBtn.style.display = "inline-block";
+    formBackBtn.classList.remove = "href";
     formBackBtn.onclick = goToPreviousStep;
   }
 
