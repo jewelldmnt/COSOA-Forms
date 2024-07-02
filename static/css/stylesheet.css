@@ -768,11 +768,21 @@ header {
 }
 
 .about__content {
-  padding-top: 10rem;
+  display: inline-block;
   padding-right: 5rem;
   text-align: justify;
+  margin: auto 0;
 }
 
+.about__content h2 {
+  padding-bottom: 1rem;
+  padding-top: 2rem;
+}
+
+.about__instructions {
+  list-style-type: disc;
+  margin-left: 2rem;
+}
 /*=============== OFFICERS ===============*/
 .officers-main-wrapper {
   display: flex;
