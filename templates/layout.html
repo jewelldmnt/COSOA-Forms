@@ -30,9 +30,9 @@
             </a>
 
             <ul class="nav__list">
-                <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
-                <li><a href="{{ url_for('about') }}">About Us</a></li>
-                <li><a href="{{ url_for('waiver') }}">Renewal Form</a></li>
+                <li><a href="{{ url_for('index') }}" {% if request.path == url_for('index') %}class="active"{% endif %}>Home</a></li>
+                <li><a href="{{ url_for('about') }}" {% if request.path == url_for('about') %}class="active"{% endif %}>About Us</a></li>
+                <li><a href="{{ url_for('waiver') }}" {% if request.path == url_for('waiver') %}class="active"{% endif %}>Renewal Form</a></li>
             </ul>
         </nav>
     </header>
